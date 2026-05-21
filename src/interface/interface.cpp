@@ -91,6 +91,11 @@ void initialize(std::string input_file_arg, int& problem_id, int& pts_per_cycle,
   auto model = std::shared_ptr<Model>(new Model());
 
   load_simulation_model(config, *model.get());
+
+  // Propagate the operator-split valve flag from sim params to model.
+  model->freeze_piecewise_valve_state =
+      simparams.sim_freeze_piecewise_valve_state;
+
   auto state = load_initial_condition(config, *model.get());
 
   // Check that steady initial is not set when ClosedLoopHeartAndPulmonary is
@@ -172,6 +177,11 @@ void initialize(std::string input_file_arg, int& problem_id, int& pts_per_cycle,
         interface->absolute_tolerance_, interface->max_nliter_);
 
     for (size_t i = 0; i < 31; i++) {
+      // Per-pseudo-step prepare (steady spinup): refresh per-block caches.
+      // This preserves the legacy per-step semantics for the spinup loop;
+      // the production-time semantics (one prepare per external timestep)
+      // applies to run_simulation/increment_time only.
+      model_steady->prepare_step(state.y, state.ydot);
       state = integrator_steady.step(state, time_step_size_steady * double(i));
     }
     model_steady->to_unsteady();
@@ -406,6 +416,10 @@ void increment_time(int problem_id, const double external_time,
   Integrator integrator(model.get(), time_step_size, interface->rho_infty_,
                         absolute_tolerance, max_nliter);
   auto state = interface->state_;
+  // External-step boundary: refresh per-block per-step caches (e.g.
+  // PiecewiseValve R_cached) from the canonical state at the start of this
+  // external step.
+  model->prepare_step(state.y, state.ydot);
   interface->state_ = integrator.step(state, external_time);
   interface->time_step_ += 1;
 
@@ -447,6 +461,15 @@ void run_simulation(int problem_id, const double external_time,
 
   interface->times_[0] = time;
   interface->states_[0] = state;
+
+  // External-step boundary: refresh per-block per-step caches (e.g.
+  // PiecewiseValve R_cached) from the canonical state at the start of this
+  // external step. Note that run_simulation may be called multiple times per
+  // external timestep by svMP (assembly + line-search trials) — each call
+  // re-prepares from the SAME state.y (interface->state_ is updated only by
+  // increment_time/update_state between external steps), so R_cached is
+  // consistent across all calls within the external step.
+  model->prepare_step(state.y, state.ydot);
 
   // Run integrator
   interface->time_step_ = 0;

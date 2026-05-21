@@ -252,6 +252,21 @@ class Block {
   virtual void post_solve(Eigen::Matrix<double, Eigen::Dynamic, 1>& y);
 
   /**
+   * @brief Per-step hook fired ONCE per timestep, before update_time and
+   * the Newton loop (callers invoke it immediately before
+   * Integrator::step). Receives the previous step's converged state so
+   * blocks can latch any quantity they need to hold constant across the
+   * Newton iterations (e.g. PiecewiseValve operator-split resistance
+   * evaluated from the previous (p_in, p_out)). Default impl is a no-op.
+   *
+   * @param y_old Previous step's converged solution vector
+   * @param ydot_old Previous step's converged time-derivative vector
+   */
+  virtual void prepare_step(
+      const Eigen::Matrix<double, Eigen::Dynamic, 1>& y_old,
+      const Eigen::Matrix<double, Eigen::Dynamic, 1>& ydot_old);
+
+  /**
    * @brief Set the gradient of the block contributions with respect to the
    * parameters
    *

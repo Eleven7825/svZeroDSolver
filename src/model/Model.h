@@ -74,6 +74,14 @@ class Model {
   double cardiac_cycle_period = -1.0;  ///< Cardiac cycle period
   double time = 0.0;                   ///< Current time
 
+  /// Operator-split PiecewiseValve resistance: when true, valve blocks
+  /// freeze their open/closed predicate at the start of each timestep
+  /// (using the previous converged y) and hold R constant across all
+  /// Newton iterations. Mirrors the genBC type="I" pattern. Set from
+  /// SimulationParameters.sim_freeze_piecewise_valve_state by the model
+  /// loader.
+  bool freeze_piecewise_valve_state = false;
+
   /**
    * @brief Create a new block
    *
@@ -253,6 +261,18 @@ class Model {
    * @param y Current solution
    */
   void post_solve(Eigen::Matrix<double, Eigen::Dynamic, 1>& y);
+
+  /**
+   * @brief Per-step hook fired once per timestep, before update_time and
+   * the Newton loop. Dispatches to every block's prepare_step so
+   * blocks can cache start-of-step state (e.g. PiecewiseValve operator-
+   * split resistance from the previous converged solution).
+   *
+   * @param y_old Previous step's converged solution vector
+   * @param ydot_old Previous step's converged time-derivative vector
+   */
+  void prepare_step(const Eigen::Matrix<double, Eigen::Dynamic, 1>& y_old,
+                    const Eigen::Matrix<double, Eigen::Dynamic, 1>& ydot_old);
 
   /**
    * @brief Convert the blocks to a steady behavior

@@ -284,7 +284,7 @@ recalibrate with `uv run python examples/calibrate_stenosis.py examples/eberth_a
 The paper's `PI = (v_max − v_min)/v_mean` equals the flow-based PI for a fixed
 cross-section, so we match the carotid segment flow PI. **A single
 `stenosis_coefficient` cannot match both absolute PIs**: raising S *increases* the
-upstream RCCA-B PI (wave reflection — exactly what the paper describes) while
+upstream RCCA-B PI (the band raises proximal systolic pressure) while
 *lowering* the downstream LCCA-B PI, and forcing the absolute values drives MAP
 non-physiological. The band's physical role is the **relative split**, so S is
 calibrated to the **PI ratio** (`3.11/1.65 = 1.885`) under a MAP guard.

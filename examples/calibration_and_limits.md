@@ -54,16 +54,10 @@ tops out ~2.3.
 
 ## Two mechanistic facts
 
-1. **Upstream amplification is capped at ~1.2–1.3× in 0D** (paper needs 2.7×).
-   The missing factor is the **reflected pressure wave** returning from the
-   stenosis to the RCCA takeoff — a wave-transit (1D) effect a lumped element
-   has no representation for.
+1. **Upstream amplification is capped at ~1.2–1.3× in 0D**, whereas the paper
+   needs 2.7× (1.16 → 3.11).
 2. **The downstream carotid always ends up *below* baseline in 0D** (LCCA
-   0.6–0.9), but the paper shows it *above* (1.16 → 1.65). For the *damped*
-   downstream vessel to be more pulsatile than the healthy baseline, the whole
-   systemic pulse must rise (afterload/reflection) — which prescribed flow
-   doesn't produce and the elastance heart *offsets* (higher afterload → lower
-   stroke volume).
+   0.6–0.9), whereas the paper shows it *above* (1.16 → 1.65).
 
 ## Why the contractile heart specifically did not help
 
@@ -74,20 +68,41 @@ tops out ~2.3.
 - Filling had to be tuned (preload 10 mmHg, low mitral resistance) so the stiff
   LV fills in the short mouse diastole (EDV 52, SV 33 µL, CO 0.20, MAP 93).
 
-## Conclusion
+## Estimated size of a 1D wave-reflection effect (mouse)
 
-Across **four independent routes** (bed sweep, waveform, contractile heart, and
-the combined heart+bed+band-inertance+HR sweep) **no physiological 0D
-parameterization matches both the healthy baseline (1.16) and the banded
-carotids (3.11/1.65)**. The band's 0D amplification (~1.3×) is intrinsically
-short of the required 2.7×, and the downstream vessel cannot rise above baseline
-without a systemic pulse increase the lumped model does not generate.
+A natural question is whether adding 1D wave propagation would supply the missing
+amplification. An order-of-magnitude estimate for the mouse:
 
-**The missing physics is wave reflection off the stenosis — inherently 1D.** This
-is exactly the boundary the source note flags: *"move to 1D only if wave-reflection
-timing … becomes the question of interest."* For the full baseline→banded
-*amplitude*, a 1D wave-propagation arch segment is required; 0D remains valid for
-the pulse-pressure redistribution, MAP, mean flows, and the qualitative story.
+- Reflection coefficient at the band Γ = (Z_throat − Z_ao)/(Z_throat + Z_ao). With
+  Z ∝ 1/A and Aₛ/A₀ ≈ 0.21, Z_throat/Z_ao ≈ 4.8 → **Γ ≈ 0.65** (a strong reflector).
+- Mouse aortic pulse-wave velocity c ≈ 3.5 m/s. The RCCA/innominate takeoff sits
+  essentially at the band's proximal face (L ≈ 0.5–1 mm), so the round-trip
+  transit time τ = 2L/c ≈ **0.6 ms**, versus systole ≈ 60 ms → **τ/systole ≈ 1 %**.
+- Fundamental wavelength λ = c/f ≈ 3.5/6.09 ≈ **0.57 m (57 cm)**, versus an arch of
+  ~1 cm → **L/λ ≈ 0.02**. Only the highest pulse harmonics (~50 Hz, λ ≈ 6 cm) reach
+  L/λ ≈ 0.1–0.2.
+
+So although the band reflects strongly, the incident and reflected waves are
+essentially **in phase** (the long-wavelength / lumped regime). The estimated
+incremental 1D gain on the RCCA PI is therefore **~10–25 % (factor ≈ 1.1–1.25×)**,
+concentrated in the sharpest systolic harmonics — **not** the ~2× needed to reach
+3.11. Consistent with this, the 0D model already reproduces the banded *pressure*
+pulse (PP ≈ 56–60 vs paper 56), i.e. the band's quasi-static pressure rise is
+already captured.
+
+## Conclusion (facts)
+
+- Across four independent routes (bed sweep, waveform, contractile heart,
+  combined sweep) **no physiological 0D parameterization matches both the healthy
+  baseline (1.16) and the banded carotids (3.11/1.65)**.
+- The band's 0D upstream amplification caps at **~1.3×**; the paper requires
+  **2.7×**. The downstream carotid stays **below** baseline in 0D, but rises above
+  it in the paper.
+- For the mouse geometry, an added **1D wave-reflection effect is estimated at
+  only ~10–25 %** — well short of the missing factor.
+- 0D remains quantitatively valid for the **pulse-pressure redistribution, MAP,
+  mean flows**, and the qualitative healthy → banded → remodeled story. The
+  residual *flow-PI amplitude* gap is not accounted for by any factor tested here.
 
 ## Reproducing the experiments
 

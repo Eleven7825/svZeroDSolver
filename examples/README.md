@@ -97,8 +97,10 @@ See also `tests/cases/steadyFlow_calibration.json` and the `svZeroDTuner` app
 The model matches the **banded** carotids and the pulse-pressure redistribution
 but over-predicts the **healthy baseline** PI. We tried four independent routes to
 fix this (terminal-bed sweep, ejection waveform, a contractile elastance heart,
-and combined sweeps) — none matches both, because the band's 0D amplification
-(~1.3×) is intrinsically short of the paper's 2.7×; the missing physics is wave
-reflection (1D). Full write-up with numbers:
+and combined sweeps) — none matches both: the band's 0D amplification (~1.3×) is
+short of the paper's 2.7×, and for the mouse geometry an added 1D wave-reflection
+effect is estimated at only ~10–25% (the arch is ~2% of a pulse wavelength). The
+residual flow-PI amplitude gap is not accounted for by any factor tested. Full
+write-up with numbers:
 [`calibration_and_limits.md`](./calibration_and_limits.md). The contractile-heart
 experiment is reproducible via `make_elastance_config.py`.

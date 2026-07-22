@@ -80,11 +80,14 @@ fig.savefig(f"{OUT}/fig1_pressure_waveforms.png"); plt.close(fig)
 # =====================================================================
 fig, ax = plt.subplots(figsize=(6.2, 4.0))
 ax.axhline(0, color=MUTED, lw=0.8)
-ax.plot(a.time - t0, a.flow_in, color=BLUE, lw=LW, label="RCCA-B (right carotid)")
-ax.plot(b.time - t0, b.flow_in, color=GREEN, lw=LW, label="LCCA-B (left carotid)")
+# CCA baseline (pre-banding carotid, both sides identical) as a dashed reference
+cca = last_cycle(df_pre, "rcca_b"); tc = cca.time.min()
+ax.plot(cca.time - tc, cca.flow_in, color=MUTED, lw=1.6, ls="--", label="CCA (pre-banding baseline)")
+ax.plot(a.time - t0, a.flow_in, color=BLUE, lw=LW, label="RCCA-B (right, banded)")
+ax.plot(b.time - t0, b.flow_in, color=GREEN, lw=LW, label="LCCA-B (left, banded)")
 ax.set_xlabel("time within cardiac cycle  [s]")
 ax.set_ylabel("flow  [ml/s]")
-ax.set_title("Carotid inflow waveforms", fontsize=11.5, color=INK)
+ax.set_title("Carotid flow waveforms — baseline vs banded", fontsize=11.5, color=INK)
 ax.legend(loc="upper right")
 fig.savefig(f"{OUT}/fig2_carotid_flow_waveforms.png"); plt.close(fig)
 
@@ -189,21 +192,44 @@ states = [("Pre-banding (healthy)", df_pre),
           ("Acute (post-band)", df_acu),
           ("Chronic (remodeled)", df)]
 fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.6), sharey=True, constrained_layout=True)
+ymax = 0.0
 for ax, (title, d) in zip(axes, states):
     aa = d[d.name == "rcca_b"].sort_values("time"); bb = d[d.name == "lcca_b"].sort_values("time")
     tt = aa.time.min()
     ax.plot(aa.time - tt, aa.pressure_in, color=BLUE, lw=LW, label="RCCA(-B) upstream")
     ax.plot(bb.time - tt, bb.pressure_in, color=GREEN, lw=LW, label="LCCA(-B) downstream")
+    ymax = max(ymax, aa.pressure_in.max(), bb.pressure_in.max())
     ppa = aa.pressure_in.max() - aa.pressure_in.min()
     ppb = bb.pressure_in.max() - bb.pressure_in.min()
     pir = PI_df(d, "rcca_b"); pil = PI_df(d, "lcca_b")
     ax.set_title(f"{title}\nPP {ppa:.0f}/{ppb:.0f} mmHg  ·  PI {pir:.1f}/{pil:.1f}", fontsize=10.5, color=INK)
     ax.set_xlabel("time in cycle  [s]")
+# shared y-axis starting at 0 so pulse amplitudes are comparable across panels
+axes[0].set_ylim(0, ymax * 1.05)
 axes[0].set_ylabel("pressure  [mmHg]")
 axes[0].legend(loc="upper right", fontsize=9)
 fig.suptitle("Carotid pressure: healthy → banded → remodeled  (band creates the split immediately; remodeling barely changes it)",
              fontsize=12, color=INK)
 fig.savefig(f"{OUT}/fig7_state_comparison.png"); plt.close(fig)
+
+# =====================================================================
+# FIG 8 — Three-state comparison: carotid FLOW waveforms
+# =====================================================================
+fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.6), sharey=True, constrained_layout=True)
+for ax, (title, d) in zip(axes, states):
+    aa = d[d.name == "rcca_b"].sort_values("time"); bb = d[d.name == "lcca_b"].sort_values("time")
+    tt = aa.time.min()
+    ax.axhline(0, color=MUTED, lw=0.8)
+    ax.plot(aa.time - tt, aa.flow_in, color=BLUE, lw=LW, label="RCCA(-B) upstream")
+    ax.plot(bb.time - tt, bb.flow_in, color=GREEN, lw=LW, label="LCCA(-B) downstream")
+    pir = PI_df(d, "rcca_b"); pil = PI_df(d, "lcca_b")
+    ax.set_title(f"{title}\nflow-PI {pir:.1f} / {pil:.1f}", fontsize=10.5, color=INK)
+    ax.set_xlabel("time in cycle  [s]")
+axes[0].set_ylabel("carotid flow  [ml/s]")
+axes[0].legend(loc="upper right", fontsize=9)
+fig.suptitle("Carotid flow: healthy → banded → remodeled  (upstream RCCA gains a sharper peak + diastolic dip; downstream LCCA is damped)",
+             fontsize=12, color=INK)
+fig.savefig(f"{OUT}/fig8_flow_state_comparison.png"); plt.close(fig)
 
 print("PI model:", {k: round(v,2) for k,v in model.items()})
 print("pre-banding PI (symmetric):", round(pi_pre, 2))

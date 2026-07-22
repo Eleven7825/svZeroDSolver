@@ -182,12 +182,13 @@ uv run python examples/make_figures.py
 | File | What it shows |
 |------|---------------|
 | `figures/fig1_pressure_waveforms.png` | Pressure over one cycle at RCCA-B (upstream) vs LCCA-B (downstream) — the pulse is damped downstream at the same mean. |
-| `figures/fig2_carotid_flow_waveforms.png` | Right vs left carotid flow waveforms (the quantity behind the paper's PI). |
+| `figures/fig2_carotid_flow_waveforms.png` | Carotid flow waveforms — CCA (pre-banding baseline, dashed) vs banded RCCA-B / LCCA-B (the quantity behind the paper's PI). |
 | `figures/fig3_band_deltaP_Q.png` | Nonlinear band characteristic ΔP_band vs Q — quadratic Young–Tsai curve with the inertance (`L`) hysteresis loop. |
 | `figures/fig4_PI_validation.png` | Pulsatility index by location, model vs Eberth Table 1 targets. |
 | `figures/fig5_pressure_envelope.png` | Systolic/diastolic/mean pressure along the aortic path — pulse pressure collapses across the band, MAP stays ~flat. |
 | `figures/fig6_severity_sweep.png` | Sensitivity: PI upstream vs downstream as band severity (`stenosis_coefficient`) is swept. |
-| `figures/fig7_state_comparison.png` | Three-state comparison (pre-banding → acute → chronic): carotid pressure is symmetric before banding, splits immediately on banding, and barely changes with remodeling. |
+| `figures/fig7_state_comparison.png` | Three-state comparison (pre-banding → acute → chronic): carotid **pressure** is symmetric before banding, splits immediately on banding, and barely changes with remodeling. |
+| `figures/fig8_flow_state_comparison.png` | Same three-state comparison for carotid **flow**: symmetric pre-banding, then upstream RCCA gains a sharper peak + diastolic dip while downstream LCCA is damped. |
 
 ![Pressure waveforms](./figures/fig1_pressure_waveforms.png)
 ![Band characteristic](./figures/fig3_band_deltaP_Q.png)

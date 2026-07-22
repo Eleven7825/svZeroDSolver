@@ -136,6 +136,31 @@ Facts from the sweep:
   three-way RCCA-B ↔ LCCA-B ↔ MAP tension persists at every band tightness. The
   nominal 78% band is the best compromise across the three targets.
 
+## Why remodeling barely changes the pressure curve
+
+The acute and chronic states give nearly identical carotid pressure (node A
+77/137, MAP ~99, PP 60 in **both**) despite the ~3.5× RCCA-B wall thickening.
+This is **not** self-compensating remodeling — the model is passive and linear,
+with no autoregulation or feedback. The pressure is simply **insensitive to the
+carotid wall geometry**, for two structural reasons:
+
+- **The carotid segment is a negligible impedance in its own path.** The head RCR
+  bed is Rp+Rd ≈ 5294 (held fixed); the carotid *segment* R is only **2.3%
+  (acute) → 0.9% (chronic)** of that, and the wall C (~1e-6) is ~1% of the
+  aortic/bed compliances. So remodeling the segment (R 124 → 47) shifts the
+  carotid-path impedance by ~1% — the fixed distal bed sets the carotid's flow
+  and pressure, not the wall geometry.
+- **The carotid is a minor side branch** (~9% of cardiac output). Node-A pressure
+  is set by the main path (heart → aorta → band → systemic, ~91% of CO), which is
+  identical in both states; the carotid only "taps" node A and draws little
+  current.
+
+Caveat: only the carotid **artery-wall segment** remodels here (as Eberth
+measured); the distal cerebral bed is held fixed. Since the bed dominates the
+carotid impedance, segment remodeling has little leverage — if the cerebral bed
+itself remodeled, the effect would be larger. This is the same reason acute ≈
+chronic throughout the results.
+
 ## Reproducing the experiments
 
 - `make_configs.py` — the prescribed-flow 0D models (prebanding/acute/chronic).

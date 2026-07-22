@@ -3,6 +3,7 @@
 \usecolortheme{default}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage[siunitx,american]{circuitikz}
 \graphicspath{{figures/}}
 
 \title[0D aortic banding]{A 0D pulsatile model of aortic-arch banding}
@@ -59,6 +60,52 @@ bed hangs off each node.
 \vspace{0.5em}
 \centering\footnotesize Three states differ \emph{only} in carotid geometry:
 pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls).
+\end{frame}
+
+% ---------------------------------------------------------------
+\begin{frame}{0D circuit (electric analogy)}
+\centering
+\resizebox{0.92\textwidth}{!}{%
+\begin{circuitikz}[every label/.style={font=\footnotesize},
+                   every node/.style={font=\footnotesize}]
+% main aortic line: heart flow source + valve
+\draw (0,-2) node[ground]{}
+      to[I, l=$Q_\text{in}(t)$] (0,-0.9)
+      to[D, l_=valve] (0,0) coordinate(hin);
+% ascending aorta R_a - L_a -> node A
+\draw (hin) to[R, l=$R_a$] (2,0)
+            to[L, l=$L_a$] (4,0) node[circ]{} coordinate(A);
+\node[above=1pt] at (A) {\textbf{A}};
+\draw (A) to[C, l_=$C_a$, *-] (4,-2) node[ground]{};
+% BAND: nonlinear stenosis A -> B
+\draw (A) to[vR, l=$\Delta P_\text{band}(Q)$, n=band] (7,0) node[circ]{} coordinate(B);
+\node[above=1pt] at (B) {\textbf{B}};
+\draw[densely dashed] ($(band.north)+(-0.95,0.5)$) rectangle ($(band.south)+(0.95,-0.35)$);
+\node[font=\scriptsize] at ($(band.south)+(0,-0.55)$) {BAND (stenosis)};
+\draw (B) to[C, l=$C_b$, *-] (7,-2) node[ground]{};
+% descending aorta -> systemic
+\draw (B) to[R, l=$R_o$] (9,0)
+          to[L, l=$L_o$] (11,0) coordinate(sys);
+% RCCA takeoff (node A) RCR
+\draw (A) to[R, l=$R_p^{R}$] (4,2) coordinate(ra);
+\draw (ra) to[R, l=$R_d^{R}$] (4,3.5) node[ground, rotate=180]{};
+\draw (ra) to[C, l=$C^{R}$, *-] (5.3,2) node[ground, rotate=-90]{};
+\node[align=center, font=\scriptsize] at (4.0,4.35) {RCCA-B\\(right head)};
+% LCCA takeoff (node B) RCR
+\draw (B) to[R, l=$R_p^{L}$] (7,2) coordinate(la);
+\draw (la) to[R, l=$R_d^{L}$] (7,3.5) node[ground, rotate=180]{};
+\draw (la) to[C, l=$C^{L}$, *-] (8.3,2) node[ground, rotate=-90]{};
+\node[align=center, font=\scriptsize] at (7.0,4.35) {LCCA-B\\(left head)};
+% systemic terminal Windkessel
+\draw (sys) to[R, l=$R_p^{S}$] (11,-1) coordinate(sa);
+\draw (sa) -- ++(-0.55,0) to[C, l_=$C^{S}$, *-] ++(0,-1) node[ground]{};
+\draw (sa) -- ++(0.55,0) to[R, l=$R_d^{S}$] ++(0,-1) node[ground]{};
+\node[align=center, font=\scriptsize] at (11.0,0.95) {systemic load};
+\end{circuitikz}}
+\\[0.3em]
+\footnotesize Pressure $\leftrightarrow$ voltage, flow $\leftrightarrow$ current.
+Node A (RCCA-B) is upstream of the band and stays pulsatile; node B (LCCA-B) is
+downstream and damped. Each terminal bed is an $R_p$--$C$--$R_d$ Windkessel.
 \end{frame}
 
 % ---------------------------------------------------------------

@@ -7,7 +7,7 @@ what we compute from the carotid segment flow.
 
 Usage:
     uv run python examples/calibrate_stenosis.py [config.json]
-Default config: examples/eberth_aortic_band_remodeled.json (the chronic /
+Default config: examples/eberth_aortic_band_chronic.json (the chronic /
 remodeled-geometry state that the Table-1 PI values correspond to).
 """
 import sys, json, copy
@@ -16,7 +16,7 @@ from scipy.optimize import minimize_scalar
 import pysvzerod
 
 REPO = "/home/shiyi/projects/svZeroDSolver"
-CFG = sys.argv[1] if len(sys.argv) > 1 else f"{REPO}/examples/eberth_aortic_band_remodeled.json"
+CFG = sys.argv[1] if len(sys.argv) > 1 else f"{REPO}/examples/eberth_aortic_band_chronic.json"
 
 # Eberth Table 1 targets (velocity PI)
 TARGET = {"rcca_b": 3.11, "lcca_b": 1.65}

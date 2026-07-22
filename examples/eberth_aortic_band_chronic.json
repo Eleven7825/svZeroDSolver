@@ -1,8 +1,9 @@
 {
   "description": {
-    "model": "Eberth (2009) aortic banding - physiologically parameterized, stenosis calibrated",
+    "model": "Eberth (2009) aortic banding - CHRONIC (5-8 weeks post-band, after wall remodeling), physiologically parameterized",
     "units": "pressure [mmHg], flow [ml/s], time [s]",
     "condition": "anesthetized banded mouse; HR=6.09 Hz (T=0.1642 s), CO=0.2 ml/s, MAP~90.0 mmHg",
+    "state_note": "Carotids use the Table-1 REMODELED geometry. This is the state Eberth measured; the band stenosis_coefficient was calibrated on this geometry to the Table-1 PI ratio (3.11/1.65).",
     "parameter_tags": {
       "_legend": "FIXED = literature/paper measured; DERIVED = computed from geometry+E via Eq(1-3); CALIBRATE = tuned to Table-1 targets",
       "blood_density_rho_g_cm3": {
@@ -47,17 +48,17 @@
       },
       "carotid_geometry_ID_wall_um": {
         "value": {
-          "RCCA_B": [
-            633,
+          "RCCA": [
+            633.0,
             88.1
           ],
-          "LCCA_B": [
-            482,
+          "LCCA": [
+            482.0,
             41.6
           ]
         },
         "tag": "FIXED",
-        "src": "Eberth 2009 Table 1"
+        "src": "Eberth 2009 Table 1 (chronic: remodeled RCCA-B/LCCA-B)"
       },
       "aorta_geometry": {
         "value": {
@@ -101,10 +102,10 @@
         "src": "throat geometry (Young-Tsai viscous+inertial)"
       },
       "band_stenosis_coefficient": {
-        "value": "see vessels[aortic_band]",
+        "value": 53.8,
         "prior": 219.1,
         "tag": "CALIBRATE",
-        "src": "geometry prior Kt=1.5; tuned to PI targets"
+        "src": "geometry prior Kt=1.5; calibrated on chronic geometry to PI ratio, reused here (same physical band)"
       },
       "RCR_beds": {
         "value": "Rp/C/Rd",
@@ -126,12 +127,6 @@
       "RCCA_B": 3.11,
       "LCCA_B": 1.65,
       "CCA_baseline": 1.16
-    },
-    "note": "The band `stenosis_coefficient` in vessels[3] is the CALIBRATED value from calibrate_stenosis.py (geometry prior ~219). Everything else is FIXED or DERIVED.",
-    "calibrated_stenosis_coefficient": {
-      "value": 53.8,
-      "objective": "PI ratio 3.11/1.65 = 1.885 (MAP-guarded)",
-      "model_ratio": 1.885
     }
   },
   "simulation_parameters": {

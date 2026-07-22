@@ -1,9 +1,9 @@
 {
   "description": {
-    "model": "Eberth (2009) aortic banding - ACUTE (right after banding, before wall remodeling), physiologically parameterized",
+    "model": "Eberth (2009) aortic banding - PRE-BANDING (healthy baseline, no band), physiologically parameterized",
     "units": "pressure [mmHg], flow [ml/s], time [s]",
     "condition": "anesthetized banded mouse; HR=6.09 Hz (T=0.1642 s), CO=0.2 ml/s, MAP~90.0 mmHg",
-    "state_note": "Carotids use BASELINE CCA geometry (un-remodeled) - acutely both carotids are still normal, so the band is the ONLY inter-carotid difference. Stenosis reuses the calibrated chronic value (same physical band); the resulting PI is a PREDICTION (no acute PI in paper).",
+    "state_note": "Healthy control BEFORE surgery: carotids are baseline CCA and the segment between the two takeoffs is a NORMAL aortic arch (no stenosis, S=0). Both carotids are symmetric; this is the reference against which the acute band effect is measured. Table-1 baseline CCA PI is 1.16.",
     "parameter_tags": {
       "_legend": "FIXED = literature/paper measured; DERIVED = computed from geometry+E via Eq(1-3); CALIBRATE = tuned to Table-1 targets",
       "blood_density_rho_g_cm3": {
@@ -58,7 +58,7 @@
           ]
         },
         "tag": "FIXED",
-        "src": "Eberth 2009 Table 1 (acute: baseline CCA both sides)"
+        "src": "Eberth 2009 Table 1 (prebanding: remodeled RCCA-B/LCCA-B)"
       },
       "aorta_geometry": {
         "value": {
@@ -95,17 +95,16 @@
       },
       "AB_segment_R_L": {
         "value": {
-          "R": 19.683,
-          "L": 0.0307
+          "R": 1.825,
+          "L": 0.0132
         },
         "tag": "DERIVED",
-        "src": "throat geometry (Young-Tsai viscous+inertial)"
+        "src": "normal aortic-arch segment (no band)"
       },
       "AB_segment_stenosis_coefficient": {
-        "value": 53.8,
-        "prior": 219.1,
-        "tag": "CALIBRATE",
-        "src": "geometry prior Kt=1.5; calibrated on chronic geometry to PI ratio, reused (same physical band)"
+        "value": 0.0,
+        "tag": "FIXED",
+        "src": "no band before surgery"
       },
       "RCR_beds": {
         "value": "Rp/C/Rd",
@@ -418,13 +417,13 @@
     },
     {
       "vessel_id": 3,
-      "vessel_name": "aortic_band",
-      "vessel_length": 0.5,
+      "vessel_name": "aortic_arch",
+      "vessel_length": 1.0,
       "zero_d_element_type": "BloodVessel",
       "zero_d_element_values": {
-        "R_poiseuille": 19.68304,
-        "L": 0.030707,
-        "stenosis_coefficient": 53.8
+        "R_poiseuille": 1.82471,
+        "C": 1.315e-06,
+        "L": 0.013222
       }
     },
     {

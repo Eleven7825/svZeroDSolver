@@ -93,7 +93,7 @@
         "tag": "FIXED",
         "src": "Aslanidou 2016 measured central aortic compliance (overrides ~20x-smaller per-segment geometric estimate)"
       },
-      "band_R_L": {
+      "AB_segment_R_L": {
         "value": {
           "R": 19.683,
           "L": 0.0307
@@ -101,11 +101,11 @@
         "tag": "DERIVED",
         "src": "throat geometry (Young-Tsai viscous+inertial)"
       },
-      "band_stenosis_coefficient": {
+      "AB_segment_stenosis_coefficient": {
         "value": 53.8,
         "prior": 219.1,
         "tag": "CALIBRATE",
-        "src": "geometry prior Kt=1.5; calibrated on chronic geometry to PI ratio, reused here (same physical band)"
+        "src": "geometry prior Kt=1.5; calibrated on chronic geometry to PI ratio, reused (same physical band)"
       },
       "RCR_beds": {
         "value": "Rp/C/Rd",

@@ -92,6 +92,11 @@ R_band = toR(R_cgs(mu, Ls, r_throat))
 L_band = toL(rho * Ls / As)
 S_prior = (Kt * rho / (2 * A0**2) * (A0/As - 1)**2) / MMHG
 
+# normal aortic-arch segment between the two carotid takeoffs, for the
+# PRE-BANDING state (no stenosis). Uses the arch lumen (D0=875 um), not the throat.
+arch = dict(r=r0_band, l=0.10, h=0.0040)          # arch segment ~1 mm long
+R_arch, C_arch, L_arch = vessel_RLC(arch, E_ao)
+
 # RCR terminal beds (distal microvasculature)
 def rcr(Q, tau, Pd=0.0):
     Rtot = MAP / Q
@@ -109,8 +114,16 @@ Q = [round(Qpeak*math.sin(math.pi*ti/Ts), 6) if ti <= Ts else 0.0 for ti in t]
 def rv(x, n=6): return round(x, n)
 
 def build(mode):
-    """mode in {'acute','chronic'} -> (config dict, RCCA-B RLC, LCCA-B RLC)."""
-    if mode == "acute":
+    """mode in {'prebanding','acute','chronic'} -> (config dict, RCCA-B RLC, LCCA-B RLC)."""
+    if mode == "prebanding":
+        rkey, lkey = "CCA_baseline", "CCA_baseline"
+        state = "PRE-BANDING (healthy baseline, no band)"
+        note = ("Healthy control BEFORE surgery: carotids are baseline CCA and the "
+                "segment between the two takeoffs is a NORMAL aortic arch (no "
+                "stenosis, S=0). Both carotids are symmetric; this is the reference "
+                "against which the acute band effect is measured. Table-1 baseline "
+                "CCA PI is 1.16.")
+    elif mode == "acute":
         rkey, lkey = "CCA_baseline", "CCA_baseline"
         state = "ACUTE (right after banding, before wall remodeling)"
         note = ("Carotids use BASELINE CCA geometry (un-remodeled) - acutely both "
@@ -129,6 +142,20 @@ def build(mode):
     rg, lg = carotid_geom(rkey), carotid_geom(lkey)
     R_rc, C_rc, L_rc = vessel_RLC(rg, E_car)
     R_lc, C_lc, L_lc = vessel_RLC(lg, E_car)
+
+    # segment between node A and node B: normal arch (pre-banding) or band (post)
+    if mode == "prebanding":
+        seg3_name = "aortic_arch"
+        seg3_vals = {"R_poiseuille": rv(R_arch, 5), "C": rv(C_arch, 9), "L": rv(L_arch, 6)}
+        seg3_len = arch["l"] * 10
+        tag_seg_RL = {"value": {"R": rv(R_arch, 3), "L": rv(L_arch, 4)}, "tag": "DERIVED", "src": "normal aortic-arch segment (no band)"}
+        tag_seg_S  = {"value": 0.0, "tag": "FIXED", "src": "no band before surgery"}
+    else:
+        seg3_name = "aortic_band"
+        seg3_vals = {"R_poiseuille": rv(R_band, 5), "L": rv(L_band, 6), "stenosis_coefficient": S_CALIB}
+        seg3_len = Ls * 10
+        tag_seg_RL = {"value": {"R": rv(R_band, 3), "L": rv(L_band, 4)}, "tag": "DERIVED", "src": "throat geometry (Young-Tsai viscous+inertial)"}
+        tag_seg_S  = {"value": S_CALIB, "prior": rv(S_prior, 1), "tag": "CALIBRATE", "src": f"geometry prior Kt={Kt}; calibrated on chronic geometry to PI ratio, reused (same physical band)"}
 
     model = {
       "description": {
@@ -151,8 +178,8 @@ def build(mode):
           "segment_lengths_cm": {"value": {"asc": asc["l"], "des": des["l"], "carotid": rg["l"], "band": Ls}, "tag": "FIXED*", "src": "carotid/band lengths are literature-guided ESTIMATES"},
           "vessel_R_L_C": {"value": "all vessel R_poiseuille/L (and carotid C) below", "tag": "DERIVED", "src": "Eq (1-3) from geometry+E"},
           "aortic_buffer_compliance_Ca_Cb_ml_mmHg": {"value": {"Ca_asc": C_asc, "Cb_des": C_des, "total": C_aorta_central}, "tag": "FIXED", "src": "Aslanidou 2016 measured central aortic compliance (overrides ~20x-smaller per-segment geometric estimate)"},
-          "band_R_L": {"value": {"R": rv(R_band,3), "L": rv(L_band,4)}, "tag": "DERIVED", "src": "throat geometry (Young-Tsai viscous+inertial)"},
-          "band_stenosis_coefficient": {"value": S_CALIB, "prior": rv(S_prior,1), "tag": "CALIBRATE", "src": f"geometry prior Kt={Kt}; calibrated on chronic geometry to PI ratio, reused here (same physical band)"},
+          "AB_segment_R_L": tag_seg_RL,
+          "AB_segment_stenosis_coefficient": tag_seg_S,
           "RCR_beds": {"value": "Rp/C/Rd", "tag": "DERIVED", "src": "MAP/Q_target split 10/90, tau=Rd*C; Q split Feintuch 2007/Trachet 2009"},
           "valve_params": {"value": "Rmax/Rmin/Steepness", "tag": "FIXED", "src": "assumed diode (not in paper)"},
           "distal_pressure_Pd": {"value": 0.0, "tag": "FIXED", "src": "venous reference assumed 0"}
@@ -189,10 +216,9 @@ def build(mode):
         {"vessel_id": 2, "vessel_name": "rcca_b", "vessel_length": rg["l"]*10,
          "zero_d_element_type": "BloodVessel", "boundary_conditions": {"outlet": "RCR_RIGHT"},
          "zero_d_element_values": {"R_poiseuille": rv(R_rc,5), "C": rv(C_rc,10), "L": rv(L_rc,6)}},
-        {"vessel_id": 3, "vessel_name": "aortic_band", "vessel_length": Ls*10,
+        {"vessel_id": 3, "vessel_name": seg3_name, "vessel_length": seg3_len,
          "zero_d_element_type": "BloodVessel",
-         "zero_d_element_values": {"R_poiseuille": rv(R_band,5), "L": rv(L_band,6),
-                                   "stenosis_coefficient": S_CALIB}},
+         "zero_d_element_values": seg3_vals},
         {"vessel_id": 4, "vessel_name": "lcca_b", "vessel_length": lg["l"]*10,
          "zero_d_element_type": "BloodVessel", "boundary_conditions": {"outlet": "RCR_LEFT"},
          "zero_d_element_values": {"R_poiseuille": rv(R_lc,5), "C": rv(C_lc,10), "L": rv(L_lc,6)}},
@@ -204,7 +230,7 @@ def build(mode):
     return model, (R_rc, C_rc, L_rc), (R_lc, C_lc, L_lc)
 
 if __name__ == "__main__":
-    for mode in ("acute", "chronic"):
+    for mode in ("prebanding", "acute", "chronic"):
         model, rc, lc = build(mode)
         out = f"{OUTDIR}/eberth_aortic_band_{mode}.json"
         with open(out, "w") as f:

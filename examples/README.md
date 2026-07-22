@@ -91,3 +91,14 @@ Note: `make_configs.py` writes the already-calibrated `stenosis_coefficient =
 
 See also `tests/cases/steadyFlow_calibration.json` and the `svZeroDTuner` app
 (`applications/svZeroDTuner`) for automated parameter estimation.
+
+## Calibration limits (why 0D can't match both baseline and banded)
+
+The model matches the **banded** carotids and the pulse-pressure redistribution
+but over-predicts the **healthy baseline** PI. We tried four independent routes to
+fix this (terminal-bed sweep, ejection waveform, a contractile elastance heart,
+and combined sweeps) — none matches both, because the band's 0D amplification
+(~1.3×) is intrinsically short of the paper's 2.7×; the missing physics is wave
+reflection (1D). Full write-up with numbers:
+[`calibration_and_limits.md`](./calibration_and_limits.md). The contractile-heart
+experiment is reproducible via `make_elastance_config.py`.

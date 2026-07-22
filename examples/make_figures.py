@@ -47,6 +47,13 @@ segs = {"ascending_aorta": "Ascending aorta", "rcca_b": "RCCA-B (node A, upstrea
         "aortic_band": "Band", "lcca_b": "LCCA-B (node B, downstream)",
         "descending_aorta": "Descending aorta"}
 
+# also simulate the pre-banding and acute states (for the PI chart + comparison)
+df_pre = pysvzerod.simulate(f"{REPO}/examples/eberth_aortic_band_prebanding.json")
+df_acu = pysvzerod.simulate(f"{REPO}/examples/eberth_aortic_band_acute.json")
+def PI_df(d, seg):
+    q = d[d.name == seg].flow_in
+    return (q.max() - q.min()) / q.mean()
+
 # =====================================================================
 # FIG 1 — Pressure waveforms: node A (RCCA-B) vs node B (LCCA-B)
 # =====================================================================
@@ -108,10 +115,11 @@ def PI(seg):
     d = last_cycle(df, seg); q = d.flow_in
     return (q.max() - q.min()) / q.mean()
 model = {"RCCA-B": PI("rcca_b"), "LCCA-B": PI("lcca_b")}
+pi_pre = PI_df(df_pre, "rcca_b")   # pre-banding baseline (carotids symmetric)
 target = {"CCA (baseline)": 1.16, "RCCA-B": 3.11, "LCCA-B": 1.65}
-labels = ["CCA (baseline)", "RCCA-B", "LCCA-B"]
-tvals = [target[k] for k in labels]
-mvals = [np.nan, model["RCCA-B"], model["LCCA-B"]]
+labels = ["CCA baseline\n(pre-banding)", "RCCA-B", "LCCA-B"]
+tvals = [1.16, 3.11, 1.65]
+mvals = [pi_pre, model["RCCA-B"], model["LCCA-B"]]
 x = np.arange(len(labels)); w = 0.38
 fig, ax = plt.subplots(figsize=(6.2, 4.0))
 b1 = ax.bar(x - w/2, tvals, w, color=MUTED, label="Eberth Table 1 (target)")
@@ -174,7 +182,31 @@ ax.set_title("Sensitivity: band severity sets the pulsatility split", fontsize=1
 ax.legend(loc="center right")
 fig.savefig(f"{OUT}/fig6_severity_sweep.png"); plt.close(fig)
 
+# =====================================================================
+# FIG 7 — Three-state comparison: pre-banding → acute → chronic
+# =====================================================================
+states = [("Pre-banding (healthy)", df_pre),
+          ("Acute (post-band)", df_acu),
+          ("Chronic (remodeled)", df)]
+fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.6), sharey=True, constrained_layout=True)
+for ax, (title, d) in zip(axes, states):
+    aa = d[d.name == "rcca_b"].sort_values("time"); bb = d[d.name == "lcca_b"].sort_values("time")
+    tt = aa.time.min()
+    ax.plot(aa.time - tt, aa.pressure_in, color=BLUE, lw=LW, label="RCCA(-B) upstream")
+    ax.plot(bb.time - tt, bb.pressure_in, color=GREEN, lw=LW, label="LCCA(-B) downstream")
+    ppa = aa.pressure_in.max() - aa.pressure_in.min()
+    ppb = bb.pressure_in.max() - bb.pressure_in.min()
+    pir = PI_df(d, "rcca_b"); pil = PI_df(d, "lcca_b")
+    ax.set_title(f"{title}\nPP {ppa:.0f}/{ppb:.0f} mmHg  ·  PI {pir:.1f}/{pil:.1f}", fontsize=10.5, color=INK)
+    ax.set_xlabel("time in cycle  [s]")
+axes[0].set_ylabel("pressure  [mmHg]")
+axes[0].legend(loc="upper right", fontsize=9)
+fig.suptitle("Carotid pressure: healthy → banded → remodeled  (band creates the split immediately; remodeling barely changes it)",
+             fontsize=12, color=INK)
+fig.savefig(f"{OUT}/fig7_state_comparison.png"); plt.close(fig)
+
 print("PI model:", {k: round(v,2) for k,v in model.items()})
+print("pre-banding PI (symmetric):", round(pi_pre, 2))
 print("pulse pressures [sys,dia,mean] along path:")
 for seg,s,d_,m in zip(path,sysP,diaP,meanP):
     print(f"  {seg:18s} sys={s:.1f} dia={d_:.1f} mean={m:.1f} pp={s-d_:.1f}")

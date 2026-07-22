@@ -104,6 +104,38 @@ already captured.
   mean flows**, and the qualitative healthy → banded → remodeled story. The
   residual *flow-PI amplitude* gap is not accounted for by any factor tested here.
 
+## Band-constancy assumption (sensitivity)
+
+The models hold the band identical from acute to chronic (a rigid external
+spacer), letting only the carotids remodel. The band region is living aortic
+wall, though, so its effective throat could change over 5–8 weeks (neointima,
+peri-band fibrosis, proximal dilation) — most plausibly tightening. Sweeping the
+band throat (loose → tight, recomputing S, L, R with consistent stenosis physics)
+on the chronic model:
+
+| throat | area stenosis | S | RCCA-B PI | LCCA-B PI | MAP | band ΔP̄ |
+|--------|--------------:|----:|----------:|----------:|----:|--------:|
+| 528 µm (loose) | 64% | 12 | 2.39 | 1.84 | 94 | 2 |
+| 467 µm (loose) | 72% | 26 | 2.59 | 1.73 | 96 | 4 |
+| 406 µm (nominal) | 78% | 54 | 2.88 | 1.53 | 98 | 7 |
+| 345 µm (tight) | 84% | 119 | 3.15 | 1.22 | 104 | 14 |
+| 284 µm (tight) | 89% | 291 | 3.15 | 0.91 | 117 | 28 |
+
+*(paper chronic: RCCA-B 3.11, LCCA-B 1.65, MAP similar)*
+
+Facts from the sweep:
+
+- **RCCA-B and LCCA-B move in opposite directions with band tightness.** A loose
+  band matches LCCA-B (1.73–1.84 vs 1.65) but leaves RCCA-B too low; a tight band
+  matches RCCA-B (3.15 vs 3.11) but collapses LCCA-B (~1.0). No single tightness
+  matches both carotids.
+- **RCCA-B saturates at ~3.15** even at 89% stenosis.
+- **MAP excludes the tight end**: at 84–89% stenosis MAP rises to 104–117 mmHg,
+  contradicting the paper's near-constant MAP.
+- So relaxing band-constancy does not let 0D match both carotids and MAP; the
+  three-way RCCA-B ↔ LCCA-B ↔ MAP tension persists at every band tightness. The
+  nominal 78% band is the best compromise across the three targets.
+
 ## Reproducing the experiments
 
 - `make_configs.py` — the prescribed-flow 0D models (prebanding/acute/chronic).

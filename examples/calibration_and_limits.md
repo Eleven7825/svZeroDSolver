@@ -172,3 +172,7 @@ chronic throughout the results.
 - LV literature values (attempt 5): Ees ≈ 8–10 mmHg/µL (Pacher 2008 *Nat Protoc*;
   Sci Rep 2019 sham 8.4), EDV ≈ 45 µL, ESV ≈ 18 µL, SV ≈ 27 µL, ESP ≈ 105,
   LVEDP ≈ 5 mmHg, filling ≈ 5 mmHg. TAC raises afterload ~2× (Sci Rep 2019).
+- `make_pv_loops.py` — plots the elastance-heart LV pressure–volume loops
+  (`figures/fig_pv_loops.png`). The loops confirm the afterload response: banding
+  shifts the loop up-and-right (ESP 147→162 mmHg, SV 33→31 µL), the classic
+  afterload signature.

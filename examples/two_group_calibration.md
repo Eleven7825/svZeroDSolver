@@ -122,6 +122,8 @@ Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-
   `make_control_group.py` / `make_banded_group.py`. The comparison figure
   (`make_two_group_figure.py` → `figures/fig_two_group.png`) shows the fit vs
   Table 1 for PI, mean flow, MAP, and pulse pressure across CCA / RCCA-B / LCCA-B.
-  The settled knobs (`make_knobs_figure.py` → `figures/fig_knobs.png`) show the
-  calibrated terminal-bed R and C: bed R differs by carotid (sets the flow split),
-  and the banded bed compliances are ~3–4× the control's (the fitted group difference).
+  The settled knobs (`make_knobs_figure.py` → `figures/fig_knobs.png`) show all the
+  R/C knobs (band S excluded), grey = control vs blue = banded: carotid bed R
+  differs by carotid (sets the flow split), the banded carotid-bed compliances are
+  ~3–4× the control's (the fitted group difference), systemic R is similar
+  (548 vs 463), and aortic C is fixed/identical (2.67e-4).

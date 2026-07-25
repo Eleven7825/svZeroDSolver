@@ -90,11 +90,40 @@ concentrated in the sharpest systolic harmonics — **not** the ~2× needed to r
 pulse (PP ≈ 56–60 vs paper 56), i.e. the band's quasi-static pressure rise is
 already captured.
 
+## Re-optimizing the band at a baseline-matched point
+
+A fair test of "can't match both" must let the **band stenosis be re-tuned** at
+each operating point (it is the free knob), not held fixed. Because the pre-op
+baseline has **no band**, it is set by C_a/C_b alone (S-independent). So: fix C_a
+to match the baseline, then let S (and C_b) chase the chronic targets.
+
+Baseline fixed: **C_a ×3 → pre-op PI 1.14** (target 1.16). Then chronic, sweeping
+the band stenosis S and C_b:
+
+| S | C_b × | chronic RCCA-B | chronic LCCA-B | MAP |
+|---|---|---:|---:|---:|
+| 54 | 1 | 1.27 | 0.79 | 97 |
+| 150 | 1 | 1.30 | 0.65 | 101 |
+| 400 | 1 | 1.29 | 0.45 | 108 |
+| 800 | 1 | 1.23 | 0.30 | 119 |
+| 1600 | 1 | 1.09 | 0.18 | 140 |
+
+(C_b ×0.25 / ×0.1 leave RCCA-B essentially unchanged.)
+
+Facts: with the baseline pinned at 1.16, chronic RCCA-B **plateaus at ~1.3 for
+every S** (target 3.11), then *declines* as S grows, while LCCA-B collapses
+(0.84 → 0.18) and MAP becomes hypertensive (→140). **Re-optimizing the band does
+not recover the match.** Mechanism: a high C_a buffers the pulse away *before* it
+reaches node A, so the band has almost no pulsatility to act on — a stenosis
+redistributes/reflects an existing pulse but cannot create one.
+
 ## Conclusion (facts)
 
 - Across four independent routes (bed sweep, waveform, contractile heart,
   combined sweep) **no physiological 0D parameterization matches both the healthy
-  baseline (1.16) and the banded carotids (3.11/1.65)**.
+  baseline (1.16) and the banded carotids (3.11/1.65)** — and this holds even when
+  the band stenosis is **re-optimized** at a baseline-matched operating point
+  (chronic RCCA-B caps at ~1.3 for all S).
 - The band's 0D upstream amplification caps at **~1.3×**; the paper requires
   **2.7×**. The downstream carotid stays **below** baseline in 0D, but rises above
   it in the paper.

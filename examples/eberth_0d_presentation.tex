@@ -220,38 +220,44 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
 \end{frame}
 
 % ---------------------------------------------------------------
-\begin{frame}{Knobs \& targets, by group}
-\small
+\begin{frame}{Targets and knobs, by group}
+\scriptsize
 \begin{columns}[T]
-\begin{column}{0.49\textwidth}
-\structure{Control group (CCA)}
-\begin{itemize}\itemsep2pt
-  \item HR 7.17\,Hz; baseline carotids; no band \hfill\emph{(fixed)}
-  \item bed $R$ \emph{pinned} to $\bar Q$\,0.016, MAP\,92
-  \item aortic $C=2.67\text{e-}4$ (measured)
-  \item \textbf{bed $C=6.3\text{e-}6$} $\to$ PI 1.16
-\end{itemize}
-\vspace{0.3em}
-{\footnotesize DOF: 4 targets / 4 knobs}
+\begin{column}{0.47\textwidth}
+\structure{Control group (CCA) --- 4 targets}
+\smallskip
+\begin{tabular}{@{}ll@{}}
+\toprule
+target (measured) & knob that sets it \\
+\midrule
+$\bar Q$ = 0.016 ml/s & carotid bed $R$ \\
+MAP = 92 mmHg & systemic $R$, CO \\
+PP = 42 mmHg & aortic $C$ \\
+PI = 1.16 & carotid bed $C$ \\
+\bottomrule
+\end{tabular}
 \end{column}
-\begin{column}{0.51\textwidth}
-\structure{Banded group (RCCA-B / LCCA-B)}
-\begin{itemize}\itemsep2pt
-  \item HR 6.09\,Hz; remodeled carotids; band \hfill\emph{(fixed)}
-  \item bed $R$ \emph{pinned} to $\bar Q$\,0.022/0.012, MAP\,86/77
-  \item \textbf{band $S=95$} $\to$ A$\to$B drop $\approx$\,10\,mmHg
-  \item \textbf{RCCA-B bed $C=2.5\text{e-}5$} $\to$ PI 3.11
-  \item \textbf{LCCA-B bed $C=2.0\text{e-}5$} $\to$ PI 1.65
-\end{itemize}
-\vspace{0.3em}
-{\footnotesize DOF: 8 targets / 8 knobs}
+\begin{column}{0.53\textwidth}
+\structure{Banded group (RCCA-B / LCCA-B) --- 8 targets}
+\smallskip
+\begin{tabular}{@{}ll@{}}
+\toprule
+target (measured) & knob that sets it \\
+\midrule
+$\bar Q$ = 0.022 / 0.012 & RCCA / LCCA bed $R$ \\
+MAP = 86 / 77 & band $S$ (A$\to$B drop) $+$ sys $R$ \\
+PP = 56 / 27 & aortic $C_a, C_b$ \\
+PI = 3.11 / 1.65 & RCCA / LCCA bed $C$ \\
+\bottomrule
+\end{tabular}
 \end{column}
 \end{columns}
-\vspace{0.6em}
-\centering\footnotesize
-Shared invariants (both groups): blood $\mu,\rho$, topology, ejection shape, wall
-moduli $E$. \quad \textbf{Bold} = calibrated knob $\to$ its target; everything else
-is fixed or pinned by measured data.
+\vspace{0.8em}
+\centering\scriptsize
+Bed resistances are \emph{pinned} by $(\bar Q,\text{MAP})$; the actively-tuned
+knobs are the bed compliances ($\to$ PI) and, for banded, the band $S$ ($\to$ the
+A$\to$B pressure drop). \; Fixed for both groups: HR (7.17 / 6.09), carotid
+geometry, blood $\mu,\rho$, wall moduli $E$, ejection shape.
 \end{frame}
 
 % ---------------------------------------------------------------

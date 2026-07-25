@@ -1,7 +1,9 @@
 {
   "description": {
-    "model": "Eberth CONTROL group, own terms (HR 7.17, beds pinned to CCA Qbar 0.016 & MAP 92, baseline carotids, no band, measured aortic compliance)",
-    "result": "Qbar 0.0160, MAP 94, PP 39 (match measured); flow-PI 2.14 over-predicts velocity PI 1.16",
+    "model": "Eberth CONTROL group, own terms (HR 7.17; beds pinned to CCA Qbar 0.016 & MAP 92; baseline carotids; no band; measured aortic compliance)",
+    "carotid_bed_C_ml_mmHg": 6.2484e-06,
+    "result": "matches CCA on all four: flow-PI 1.16, Qbar 0.0161, MAP 94, PP 41",
+    "note": "carotid bed compliance is the flow-admittance knob for PI; passive RCR suffices (no autoregulation needed).",
     "see": "two_group_calibration.md"
   },
   "simulation_parameters": {
@@ -189,7 +191,7 @@
       "bc_type": "RCR",
       "bc_values": {
         "Rp": 575.0,
-        "C": 1.932e-05,
+        "C": 6.2484e-06,
         "Rd": 5175.0,
         "Pd": 0.0
       }
@@ -199,7 +201,7 @@
       "bc_type": "RCR",
       "bc_values": {
         "Rp": 575.0,
-        "C": 1.932e-05,
+        "C": 6.2484e-06,
         "Rd": 5175.0,
         "Pd": 0.0
       }

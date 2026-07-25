@@ -36,42 +36,44 @@ Targets per vessel = {P_sys, P_dias, Q̄, PI} = 4.
 ## Step 1 — CONTROL group on its own terms (executed)
 
 Build: HR **7.17**, baseline CCA carotids, **no band**, terminal beds **pinned**
-to the measured CCA Q̄ = 0.016 ml/s and MAP ≈ 92; aortic compliance is the free
-knob. Script: `make_control_group.py` → `eberth_control_group.json`.
+to the measured CCA Q̄ = 0.016 ml/s and MAP ≈ 92, aortic compliance at the
+**measured** value; the **carotid-bed compliance** is the one calibrated knob.
+Script: `make_control_group.py` → `eberth_control_group.json`.
 
-**Result:**
+**Result — the passive RCR matches all four CCA targets:**
 
-| aortic C | flow-PI | Q̄ | MAP | pulse pressure |
+| knob | flow-PI | Q̄ | MAP | pulse pressure |
 |---|---:|---:|---:|---:|
-| **measured** (2.67e-4) | **2.14** | 0.0160 ✓ | 94 ✓ | **39 ≈ 42.5** ✓ |
-| forced to PI 1.16 (6.3e-4, ×2.4) | 1.16 | 0.0160 | 94 | **25** ✗ |
+| carotid-bed C = **6.25e-6** (calibrated) | **1.16** ✓ | 0.0161 ✓ | 94 ✓ | **41 ≈ 42.5** ✓ |
 | paper CCA target | 1.16 | 0.016 | ~92 | 42.5 |
 
 **Findings (facts):**
 1. **HR 7.17 barely changed the baseline PI** (2.14 vs 2.09 at 6.09 Hz) — heart
-   rate is not the missing lever, contrary to the earlier hypothesis.
-2. **Beds pinned to the measured flow reproduce Q̄ and MAP exactly** (0.016, 94).
-3. **At the *measured* aortic compliance the pressure pulse matches** (PP 39 ≈
-   42.5) — but the **flow-PI over-predicts** (2.14 vs 1.16).
-4. **Forcing the flow-PI to 1.16 requires ~2.4× the measured aortic compliance,
-   which then collapses the pressure pulse to 25** (vs measured 42.5).
+   rate is not the lever.
+2. **Beds pinned to the measured flow reproduce Q̄ and MAP exactly.**
+3. **The flow pulsatility is set by the *carotid bed compliance*** (the flow
+   admittance): low bed C → flow tracks pressure resistively, PI → PP/MAP ≈ 0.46;
+   high bed C → the capacitor adds flow swing, PI → large; an intermediate value
+   (6.25e-6) gives PI = 1.16.
+4. Because the carotid is a **minor branch (~9% of CO)**, tuning its bed C moves
+   the flow-PI **without disturbing the pressure pulse** — so all four targets
+   (PI, Q̄, MAP, PP) are matched together.
 
-**Refined diagnosis:** the discrepancy is *not* HR, bed resistance, the band, or
-cross-group parameter sharing. Isolated cleanly in the control group, it is that
-**the modeled carotid *flow* pulsatility (2.14) exceeds the measured *velocity* PI
-(1.16) at the correct pressure pulse** — and flow-PI and pressure-PP cannot be
-matched together (raising aortic compliance to fix one breaks the other). This
-points to the carotid bed's *flow admittance* — how flow responds to the pressure
-pulse — most plausibly **cerebral autoregulation** (active steadying of flow),
-which a passive RCR windkessel cannot reproduce. This is a bed/BC modeling limit,
-distinct from the band-amplification limit documented in `calibration_and_limits.md`.
+**Correction to an earlier claim:** an initial version of this note tuned the
+*aortic* compliance C_a to hit the PI, which failed (C_a buffers the pressure, so
+it couples flow-PI and PP → fixing one broke the other) and led to a wrong
+"needs cerebral autoregulation / passive RCR insufficient" conclusion. That was a
+**wrong-knob error**: the correct knob is the **carotid bed C**, and the **passive
+RCR is sufficient** for the baseline — no autoregulation needed.
 
 ## Status / next
 
-- `eberth_control_group.json` is saved at the **measured** aortic compliance
-  (matches Q̄, MAP, and pressure PP; flow-PI reported as an over-prediction) — not
-  the compliance-inflated fit, which would break the pressure.
+- `eberth_control_group.json` matches CCA on flow-PI, Q̄, MAP, and PP with the
+  measured aortic compliance and a calibrated carotid-bed compliance.
+- This also means the **descriptive** two-group route (per-carotid bed C) is
+  viable with the stock RCR: control uses its bed C, and the banded group would
+  use its own RCCA/LCCA bed C's (+ band S) — the DOF budget (8 targets / 8 knobs)
+  is met. The **mechanistic** route (shared bed, band as sole driver) remains
+  under-determined for the two banded PIs (see `calibration_and_limits.md`).
 - Step 2 (banded group on its own terms: HR 6.09, remodeled carotids, beds pinned
-  to 0.022 / 0.012, band S calibrated) is not yet built. Given the control-group
-  finding, the open question there is the same flow-admittance issue plus the
-  band-amplification cap.
+  to 0.022 / 0.012, per-carotid bed C + band S) is the next build.

@@ -119,4 +119,6 @@ Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-
   states, linked by the band (anchored to the measured drop) and the measured
   geometry/HR/flows — not a single predictive model.
 - Deliverables: `eberth_control_group.json`, `eberth_banded_group.json`, built by
-  `make_control_group.py` / `make_banded_group.py`.
+  `make_control_group.py` / `make_banded_group.py`. The comparison figure
+  (`make_two_group_figure.py` → `figures/fig_two_group.png`) shows the fit vs
+  Table 1 for PI, mean flow, MAP, and pulse pressure across CCA / RCCA-B / LCCA-B.

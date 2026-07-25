@@ -20,19 +20,23 @@ def rcr(cfg, name):
 def aortic_C(cfg):
     return sum(v["zero_d_element_values"].get("C",0) for v in cfg["vessels"]
                if v["vessel_name"] in ("ascending_aorta","descending_aorta"))
+def aortic_C_seg(cfg, name):
+    return [v["zero_d_element_values"]["C"] for v in cfg["vessels"] if v["vessel_name"]==name][0]
 ctrl=json.load(open(f"{REPO}/examples/eberth_control_group.json"))
 band=json.load(open(f"{REPO}/examples/eberth_banded_group.json"))
 Rc,Cc=rcr(ctrl,"RCR_RIGHT")                 # CCA (control, symmetric)
 Rr,Cr=rcr(band,"RCR_RIGHT"); Rl,Cl=rcr(band,"RCR_LEFT")   # RCCA-B, LCCA-B
 Rsys_c=rcr(ctrl,"RCR_SYS")[0]; Rsys_b=rcr(band,"RCR_SYS")[0]
-Cao_c=aortic_C(ctrl); Cao_b=aortic_C(band)
+Cao_c=aortic_C(ctrl)                                     # control: whole aorta (no band split)
+Cao_r=aortic_C_seg(band,"ascending_aorta")                # banded: proximal (RCCA-B side)
+Cao_l=aortic_C_seg(band,"descending_aorta")               # banded: distal (LCCA-B side)
 
 # each panel: (title, unit, values, colors, xlabels, fmt)
 panels=[
  ("carotid bed $R$","mmHg·s/ml",[Rc,Rr,Rl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.0f}"),
  ("carotid bed $C$","ml/mmHg",[Cc,Cr,Cl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.1e}"),
  ("systemic bed $R$","mmHg·s/ml",[Rsys_c,Rsys_b],[GREY,BLUE],["control","banded"],"{:.0f}"),
- ("aortic $C$","ml/mmHg",[Cao_c,Cao_b],[GREY,BLUE],["control","banded"],"{:.1e}"),
+ ("aortic $C$","ml/mmHg",[Cao_c,Cao_r,Cao_l],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.1e}"),
 ]
 fig,axes=plt.subplots(1,4,figsize=(13.5,3.9),constrained_layout=True)
 for ax,(title,unit,vals,cols,xl,fmt) in zip(axes,panels):
@@ -51,4 +55,4 @@ print("wrote",f"{OUT}/fig_knobs.png")
 print(f"  bed R : CCA {Rc:.0f} | RCCA-B {Rr:.0f} | LCCA-B {Rl:.0f}")
 print(f"  bed C : CCA {Cc:.2e} | RCCA-B {Cr:.2e} | LCCA-B {Cl:.2e}")
 print(f"  sys R : control {Rsys_c:.0f} | banded {Rsys_b:.0f}")
-print(f"  aortic C: control {Cao_c:.2e} | banded {Cao_b:.2e}")
+print(f"  aortic C: CCA(control) {Cao_c:.2e} | RCCA-B(prox) {Cao_r:.2e} | LCCA-B(dist) {Cao_l:.2e}")

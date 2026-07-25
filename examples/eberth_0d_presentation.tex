@@ -220,32 +220,38 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
 \end{frame}
 
 % ---------------------------------------------------------------
-\begin{frame}{Knobs \& targets (two-group calibration)}
+\begin{frame}{Knobs \& targets, by group}
 \small
-\textbf{Fixed / pinned (not tuned):} blood $\mu,\rho$, topology, ejection shape,
-wall moduli $E$ (species invariants); HR, carotid geometry, band geometry
-(measured per group); and the terminal-bed \emph{resistances}, pinned by the
-measured $\bar Q$ and MAP.
+\begin{columns}[T]
+\begin{column}{0.49\textwidth}
+\structure{Control group (CCA)}
+\begin{itemize}\itemsep2pt
+  \item HR 7.17\,Hz; baseline carotids; no band \hfill\emph{(fixed)}
+  \item bed $R$ \emph{pinned} to $\bar Q$\,0.016, MAP\,92
+  \item aortic $C=2.67\text{e-}4$ (measured)
+  \item \textbf{bed $C=6.3\text{e-}6$} $\to$ PI 1.16
+\end{itemize}
+\vspace{0.3em}
+{\footnotesize DOF: 4 targets / 4 knobs}
+\end{column}
+\begin{column}{0.51\textwidth}
+\structure{Banded group (RCCA-B / LCCA-B)}
+\begin{itemize}\itemsep2pt
+  \item HR 6.09\,Hz; remodeled carotids; band \hfill\emph{(fixed)}
+  \item bed $R$ \emph{pinned} to $\bar Q$\,0.022/0.012, MAP\,86/77
+  \item \textbf{band $S=95$} $\to$ A$\to$B drop $\approx$\,10\,mmHg
+  \item \textbf{RCCA-B bed $C=2.5\text{e-}5$} $\to$ PI 3.11
+  \item \textbf{LCCA-B bed $C=2.0\text{e-}5$} $\to$ PI 1.65
+\end{itemize}
+\vspace{0.3em}
+{\footnotesize DOF: 8 targets / 8 knobs}
+\end{column}
+\end{columns}
 \vspace{0.6em}
-
-\textbf{Calibrated knobs} $\to$ \textbf{the target each sets:}
-\begin{center}
-\begin{tabular}{ll}
-\toprule
-knob & target \\
-\midrule
-per-carotid bed compliance $C$ & pulsatility index PI \\
-band stenosis coefficient $S$ & A$\to$B mean pressure drop \\
-aortic compliance $C_a, C_b$ & pulse pressure PP \\
-systemic bed $R$ (+ CO) & MAP / total flow \\
-\bottomrule
-\end{tabular}
-\end{center}
-\vspace{0.4em}
 \centering\footnotesize
-Targets per vessel $=\{$PI, $\bar Q$, MAP, PP$\}$. \; DOF balance:
-control \textbf{4\,=\,4}; \; banded \textbf{8\,=\,8} (two per-carotid beds
-$\to$ the two PIs).
+Shared invariants (both groups): blood $\mu,\rho$, topology, ejection shape, wall
+moduli $E$. \quad \textbf{Bold} = calibrated knob $\to$ its target; everything else
+is fixed or pinned by measured data.
 \end{frame}
 
 % ---------------------------------------------------------------

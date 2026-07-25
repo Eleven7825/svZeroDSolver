@@ -220,6 +220,22 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
 \end{frame}
 
 % ---------------------------------------------------------------
+\begin{frame}{Revised: two-group calibration (control vs.\ banded)}
+\small
+Control (CCA) and banded (RCCA-B/LCCA-B) are \textbf{two separate animal groups} ---
+they need not share $R/C/L$. Calibrating each on its own terms --- HR and measured
+flows/pressures pin the beds, the band anchored to the measured A$\to$B pressure
+drop, per-carotid bed compliance sets the PI --- matches \emph{all three} carotid
+states with a stock RCR:
+\vspace{0.2em}
+\centering
+\includegraphics[width=\linewidth]{fig_two_group.png}
+\\[0.2em]
+\footnotesize DOF-balanced (8 targets / 8 knobs). Cost: bed compliance differs
+between groups (fitted, not measured) --- descriptive, not a single predictive model.
+\end{frame}
+
+% ---------------------------------------------------------------
 \begin{frame}{Summary}
 \begin{itemize}
   \item A literature-parameterized 0D model reproduces the Eberth
@@ -228,9 +244,12 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
   \item Banding creates the split \textbf{immediately}; wall remodeling barely
         changes it --- consistent with pulsatility being the \emph{stimulus}
         for remodeling.
-  \item Quantitatively matches the \textbf{banded} carotids (PI ratio, MAP,
-        pulse pressure); \textbf{over-predicts the baseline} --- a 0D
-        limitation pointing to 1D wave reflection.
+  \item With a \emph{single shared} parameter set, 0D matches the redistribution
+        and pressures but not both the baseline and banded PIs (a bounded
+        amplification limit; a 1D wave-reflection effect is small for the mouse).
+  \item Treating control and banded as \emph{separate groups} --- their own beds,
+        band anchored to the measured pressure drop --- matches \textbf{all three
+        carotid states}, at the cost of group-specific (fitted) bed compliance.
 \end{itemize}
 \end{frame}
 

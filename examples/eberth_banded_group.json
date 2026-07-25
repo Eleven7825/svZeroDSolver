@@ -1,0 +1,339 @@
+{
+  "description": {
+    "model": "Eberth BANDED group, own terms (HR 6.09; remodeled carotids; beds pinned to measured RCCA-B/LCCA-B Q & MAP; band S -> A-B MAP drop; per-carotid bed C -> PIs)",
+    "calibrated": {
+      "band_S": 95.203,
+      "RCCA_bed_C": 2.49064e-05,
+      "LCCA_bed_C": 2.04191e-05
+    },
+    "result": "RCCA-B PI 3.09/Q 0.0221; LCCA-B PI 1.65/Q 0.0120",
+    "see": "two_group_calibration.md"
+  },
+  "simulation_parameters": {
+    "number_of_cardiac_cycles": 25,
+    "number_of_time_pts_per_cardiac_cycle": 201,
+    "output_all_cycles": false,
+    "steady_initial": true,
+    "absolute_tolerance": 1e-09
+  },
+  "boundary_conditions": [
+    {
+      "bc_name": "INFLOW",
+      "bc_type": "FLOW",
+      "bc_values": {
+        "Q": [
+          0.0,
+          0.076999,
+          0.15322,
+          0.228002,
+          0.300553,
+          0.370243,
+          0.436335,
+          0.498257,
+          0.555351,
+          0.607123,
+          0.653025,
+          0.692659,
+          0.72562,
+          0.751578,
+          0.77031,
+          0.781616,
+          0.785398,
+          0.781617,
+          0.770306,
+          0.751583,
+          0.725612,
+          0.692667,
+          0.653035,
+          0.60711,
+          0.555363,
+          0.498241,
+          0.436349,
+          0.370225,
+          0.300568,
+          0.227982,
+          0.153237,
+          0.076979,
+          1.7e-05,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "t": [
+          0.0,
+          0.002053,
+          0.004105,
+          0.006158,
+          0.00821,
+          0.010263,
+          0.012315,
+          0.014368,
+          0.01642,
+          0.018473,
+          0.020525,
+          0.022578,
+          0.024631,
+          0.026683,
+          0.028736,
+          0.030788,
+          0.032841,
+          0.034893,
+          0.036946,
+          0.038998,
+          0.041051,
+          0.043103,
+          0.045156,
+          0.047209,
+          0.049261,
+          0.051314,
+          0.053366,
+          0.055419,
+          0.057471,
+          0.059524,
+          0.061576,
+          0.063629,
+          0.065681,
+          0.067734,
+          0.069787,
+          0.071839,
+          0.073892,
+          0.075944,
+          0.077997,
+          0.080049,
+          0.082102,
+          0.084154,
+          0.086207,
+          0.088259,
+          0.090312,
+          0.092365,
+          0.094417,
+          0.09647,
+          0.098522,
+          0.100575,
+          0.102627,
+          0.10468,
+          0.106732,
+          0.108785,
+          0.110837,
+          0.11289,
+          0.114943,
+          0.116995,
+          0.119048,
+          0.1211,
+          0.123153,
+          0.125205,
+          0.127258,
+          0.12931,
+          0.131363,
+          0.133415,
+          0.135468,
+          0.137521,
+          0.139573,
+          0.141626,
+          0.143678,
+          0.145731,
+          0.147783,
+          0.149836,
+          0.151888,
+          0.153941,
+          0.155993,
+          0.158046,
+          0.160099,
+          0.162151,
+          0.164204
+        ]
+      }
+    },
+    {
+      "bc_name": "RCR_RIGHT",
+      "bc_type": "RCR",
+      "bc_values": {
+        "Rp": 393.18,
+        "C": 2.49064e-05,
+        "Rd": 3538.64,
+        "Pd": 0.0
+      }
+    },
+    {
+      "bc_name": "RCR_LEFT",
+      "bc_type": "RCR",
+      "bc_values": {
+        "Rp": 640.0,
+        "C": 2.04191e-05,
+        "Rd": 5760.0,
+        "Pd": 0.0
+      }
+    },
+    {
+      "bc_name": "RCR_SYS",
+      "bc_type": "RCR",
+      "bc_values": {
+        "Rp": 46.27,
+        "C": 0.00092222,
+        "Rd": 416.39,
+        "Pd": 0.0
+      }
+    }
+  ],
+  "valves": [
+    {
+      "type": "ValveTanh",
+      "name": "aortic_valve",
+      "params": {
+        "Rmax": 100000.0,
+        "Rmin": 1.0,
+        "Steepness": 1.0,
+        "upstream_block": "aortic_root",
+        "downstream_block": "ascending_aorta"
+      }
+    }
+  ],
+  "junctions": [
+    {
+      "junction_name": "node_A",
+      "junction_type": "NORMAL_JUNCTION",
+      "inlet_vessels": [
+        1
+      ],
+      "outlet_vessels": [
+        2,
+        3
+      ]
+    },
+    {
+      "junction_name": "node_B",
+      "junction_type": "NORMAL_JUNCTION",
+      "inlet_vessels": [
+        3
+      ],
+      "outlet_vessels": [
+        4,
+        5
+      ]
+    }
+  ],
+  "vessels": [
+    {
+      "vessel_id": 0,
+      "vessel_name": "aortic_root",
+      "vessel_length": 2.5,
+      "zero_d_element_type": "BloodVessel",
+      "boundary_conditions": {
+        "inlet": "INFLOW"
+      },
+      "zero_d_element_values": {
+        "R_poiseuille": 0.20882,
+        "L": 0.003874
+      }
+    },
+    {
+      "vessel_id": 1,
+      "vessel_name": "ascending_aorta",
+      "vessel_length": 2.5,
+      "zero_d_element_type": "BloodVessel",
+      "zero_d_element_values": {
+        "R_poiseuille": 0.69607,
+        "C": 0.00017088,
+        "L": 0.012912
+      }
+    },
+    {
+      "vessel_id": 2,
+      "vessel_name": "rcca_b",
+      "vessel_length": 7.0,
+      "zero_d_element_type": "BloodVessel",
+      "boundary_conditions": {
+        "outlet": "RCR_RIGHT"
+      },
+      "zero_d_element_values": {
+        "R_poiseuille": 46.63474,
+        "C": 1.0551e-06,
+        "L": 0.17685
+      }
+    },
+    {
+      "vessel_id": 3,
+      "vessel_name": "aortic_band",
+      "vessel_length": 0.5,
+      "zero_d_element_type": "BloodVessel",
+      "zero_d_element_values": {
+        "R_poiseuille": 19.68304,
+        "L": 0.030707,
+        "stenosis_coefficient": 95.203
+      }
+    },
+    {
+      "vessel_id": 4,
+      "vessel_name": "lcca_b",
+      "vessel_length": 7.0,
+      "zero_d_element_type": "BloodVessel",
+      "boundary_conditions": {
+        "outlet": "RCR_LEFT"
+      },
+      "zero_d_element_values": {
+        "R_poiseuille": 138.71908,
+        "C": 9.865e-07,
+        "L": 0.305013
+      }
+    },
+    {
+      "vessel_id": 5,
+      "vessel_name": "descending_aorta",
+      "vessel_length": 8.0,
+      "zero_d_element_type": "BloodVessel",
+      "boundary_conditions": {
+        "outlet": "RCR_SYS"
+      },
+      "zero_d_element_values": {
+        "R_poiseuille": 13.04206,
+        "C": 9.612e-05,
+        "L": 0.099981
+      }
+    }
+  ]
+}

@@ -75,5 +75,48 @@ RCR is sufficient** for the baseline — no autoregulation needed.
   use its own RCCA/LCCA bed C's (+ band S) — the DOF budget (8 targets / 8 knobs)
   is met. The **mechanistic** route (shared bed, band as sole driver) remains
   under-determined for the two banded PIs (see `calibration_and_limits.md`).
-- Step 2 (banded group on its own terms: HR 6.09, remodeled carotids, beds pinned
-  to 0.022 / 0.012, per-carotid bed C + band S) is the next build.
+## Step 2 — BANDED group on its own terms (executed)
+
+Build: HR **6.09**, remodeled carotids (RCCA-B 633/88.1, LCCA-B 482/41.6), band.
+Beds **pinned** to each carotid's measured Q̄ and MAP (RCCA-B 0.022 @ 86.5,
+LCCA-B 0.012 @ 76.8, systemic @ 76.8). Band **S calibrated to the A→B mean
+pressure drop** (MAP_A − MAP_B ≈ 9.7 mmHg — a *measured* quantity); the two
+**per-carotid bed C's calibrated to the PIs**. Script: `make_banded_group.py`
+→ `eberth_banded_group.json`.
+
+**Result — matches all banded targets:**
+
+| vessel | flow-PI | Q̄ | MAP | PP |
+|---|---:|---:|---:|---:|
+| RCCA-B | **3.09** ✓ | 0.0221 ✓ | 88 ✓ | 63 (meas 56) |
+| LCCA-B | **1.65** ✓ | 0.0120 ✓ | 79 ✓ | 31 (meas 27) |
+| A→B MAP drop | 9.4 (meas 9.7) | | | |
+
+Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-5.
+
+**Findings:**
+1. The banded group matches **all** its own targets (both PIs, both flows, both
+   MAPs, the band drop) with the **stock passive RCR** — no new block.
+2. The band S is **anchored to the measured mean pressure drop** (not fit to the
+   PI), a cleaner mechanistic constraint than the earlier ratio-only S.
+3. The two PIs are hit by the two **per-carotid bed compliances** (flow-admittance
+   knobs) — DOF-balanced (8 targets / 8 knobs), as the plan predicted.
+4. The two carotid beds came out **similar** (2.5 vs 2.0e-5), so the RCCA-B ≫
+   LCCA-B pulsatility asymmetry is driven mainly by **band position + geometry**,
+   not by asymmetric cerebral beds — a mechanistically satisfying outcome.
+
+## Conclusion of the two-group approach
+
+- **Both groups match their own data** with a stock passive RCR: control (PI 1.16,
+  Q̄ 0.016, MAP ~92, PP 42) and banded (RCCA-B 3.11 & LCCA-B 1.65, flows, MAPs,
+  band drop). The band is anchored to the measured pressure drop.
+- This confirms the DOF analysis: the **descriptive** route (per-group,
+  per-carotid bed C) is well-posed and **succeeds** — the earlier "can't match
+  both" was specific to the **mechanistic single-shared-parameter-set** route.
+- **Cost (the descriptive price):** the fitted terminal-bed compliance differs
+  between groups (control 6.25e-6 vs banded ~2e-5, ~3–4×). That group difference
+  is fitted, not independently measured. So the two configs are two calibrated
+  states, linked by the band (anchored to the measured drop) and the measured
+  geometry/HR/flows — not a single predictive model.
+- Deliverables: `eberth_control_group.json`, `eberth_banded_group.json`, built by
+  `make_control_group.py` / `make_banded_group.py`.

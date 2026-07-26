@@ -249,45 +249,47 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
 \end{frame}
 
 % ---------------------------------------------------------------
-\begin{frame}{Targets and knobs, by group}
+\begin{frame}{Targets: pinned, fixed, or an actual free knob?}
 \scriptsize
 \begin{columns}[T]
 \begin{column}{0.47\textwidth}
-\structure{Control group (CCA) --- 4 targets}
+\structure{Control group (CCA) --- \textbf{1 free knob}}
 \smallskip
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}lll@{}}
 \toprule
-target (measured) & knob that sets it \\
+target & how it's matched & status \\
 \midrule
-$\bar Q$ = 0.016 ml/s & $R_p^{R,L}\!+\!R_d^{R,L}$ (RCR\_RIGHT/LEFT) \\
-MAP = 92 mmHg & $R_p^{S}\!+\!R_d^{S}$ (RCR\_SYS) \\
-PP = 42 mmHg & $C_a,C_b$ (aortic) \\
-PI = 1.16 & $C^{R,L}$ (RCR\_RIGHT/LEFT) \\
+$\bar Q$=0.016 & bed $R_p{+}R_d$ & pinned \\
+MAP=92 & sys $R_p^{S}{+}R_d^{S}$ & pinned \\
+PP=42 & $C_a,C_b$ (aortic) & fixed \\
+PI=1.16 & bed $C^{R,L}$ & \textbf{KNOB} \\
 \bottomrule
 \end{tabular}
 \end{column}
 \begin{column}{0.53\textwidth}
-\structure{Banded group (RCCA-B / LCCA-B) --- 8 targets}
+\structure{Banded group (RCCA-B / LCCA-B) --- \textbf{3 free knobs}}
 \smallskip
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}lll@{}}
 \toprule
-target (measured) & knob that sets it \\
+target & how it's matched & status \\
 \midrule
-$\bar Q$ = 0.022 / 0.012 & $R_p^{R}\!+\!R_d^{R}$ / $R_p^{L}\!+\!R_d^{L}$ \\
-MAP = 86 / 77 & $S$ (A$\to$B drop) $+$ $R_p^{S}\!+\!R_d^{S}$ \\
-PP = 56 / 27 & $C_a,C_b$ (aortic) \\
-PI = 3.11 / 1.65 & $C^{R}$ / $C^{L}$ \\
+$\bar Q$=0.022/0.012 & bed $R_p^{R}{+}R_d^{R}$ / $R_p^{L}{+}R_d^{L}$ & pinned \\
+MAP=86/77 & sys $R$ (pinned) $+$ band $S$ & \textbf{KNOB} \\
+PP=56/27 & $C_a,C_b$ (aortic) & fixed \\
+PI=3.11/1.65 & bed $C^{R}$ / $C^{L}$ & \textbf{KNOB} \\
 \bottomrule
 \end{tabular}
 \end{column}
 \end{columns}
 \vspace{0.8em}
 \centering\scriptsize
-Bed resistances ($R_p{+}R_d$) are \emph{pinned} by $(\bar Q,\text{MAP})$; the
-actively-tuned knobs are the bed compliances $C^{R},C^{L}$ ($\to$ PI) and, for
-banded, the band $S$ ($\to$ the A$\to$B pressure drop). \; Fixed for both
-groups: HR (7.17 / 6.09), cardiac output CO, carotid geometry, blood $\mu,\rho$,
-wall moduli $E$, ejection shape.
+\textbf{Only 4 parameters are actually free/calibrated} (control bed $C^{R,L}$;
+banded bed $C^{R}$, $C^{L}$, band $S$). Bed resistances ($R_p{+}R_d$, all beds)
+are \emph{pinned} --- solved directly from $(\bar Q,\text{MAP})$ via Ohm's law,
+not searched. Aortic $C_a,C_b$ is \emph{fixed} literature, identical in both
+groups --- its PP match is therefore \emph{emergent}, not tuned. \; Also fixed:
+HR (7.17/6.09), CO, carotid geometry, blood $\mu,\rho$, wall moduli $E$,
+ejection shape.
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -302,9 +304,9 @@ states with a stock RCR:
 \centering
 \includegraphics[width=\linewidth]{fig_two_group.png}
 \\[0.2em]
-\footnotesize DOF-balanced (12 targets / 12 knobs). Cost: bed compliance
-$C^{R},C^{L}$ differs between groups (fitted, not measured) --- descriptive, not
-a single predictive model.
+\footnotesize Only \textbf{4 parameters are free} (bed $C^{R,L},C^{R},C^{L}$,
+band $S$ --- previous slide); bed $R$ pinned, aortic $C$ fixed. Cost: bed
+compliance differs between groups (fitted) --- descriptive, not predictive.
 \end{frame}
 
 % ---------------------------------------------------------------

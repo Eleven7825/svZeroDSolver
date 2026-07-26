@@ -19,26 +19,30 @@ self-imposed. This note plans and logs a group-specific calibration.
   band geometry (banded only). Plus the measured per-vessel Q̄ and pressures,
   used as *constraints* that pin the bed resistances and mean operating point.
 - **Tier 3 — free knobs, calibrated to each group's own targets**: terminal-bed
-  compliance, aortic compliance, and (banded only) the band stenosis_coefficient.
-  Bed *resistances* are pinned by (Q̄, MAP), so they are not free.
+  compliance (`RCR_RIGHT`/`RCR_LEFT`/`RCR_SYS` $C$), aortic compliance
+  (`ascending_aorta`/`descending_aorta` $C_a,C_b$), and (banded only) the band
+  `stenosis_coefficient` $S$ (`aortic_band`). Bed *resistances* ($R_p{+}R_d$) are
+  pinned by (Q̄, MAP), so they are not free. Symbols match the circuit diagram
+  in `eberth_0d_presentation.tex` (slide 4).
 
 ## Identifiability (DOF)
 
 Targets per vessel = {P_sys, P_dias, Q̄, PI} = 4.
-- **Control** (1 carotid): 4 targets ↔ 4 knobs (bed R, bed C, aortic C, systemic R) → determined.
-- **Banded** (2 carotids): 8 targets ↔ 8 knobs → determined, but band S is
-  redundant with the two bed C's for the PIs. The pulsatility sub-problem is the
-  crux: with the cerebral beds *shared* (mechanistic), the 2 banded PIs have
-  ~1 effective knob → under-determined (this is why they couldn't both be hit);
-  with per-carotid bed C free, they are matchable but S becomes redundant and the
-  model turns descriptive.
+- **Control** (1 carotid): 4 targets ↔ 4 knobs ($R_p^{R,L}{+}R_d^{R,L}$ bed $R$,
+  $C^{R,L}$ bed $C$, $C_a,C_b$ aortic $C$, $R_p^{S}{+}R_d^{S}$ systemic $R$) → determined.
+- **Banded** (2 carotids): 8 targets ↔ 8 knobs → determined, but band $S$ is
+  redundant with the two bed $C$'s ($C^{R},C^{L}$) for the PIs. The pulsatility
+  sub-problem is the crux: with the cerebral beds *shared* (mechanistic), the 2
+  banded PIs have ~1 effective knob → under-determined (this is why they
+  couldn't both be hit); with per-carotid bed $C$ free, they are matchable but
+  $S$ becomes redundant and the model turns descriptive.
 
 ## Step 1 — CONTROL group on its own terms (executed)
 
 Build: HR **7.17**, baseline CCA carotids, **no band**, terminal beds **pinned**
-to the measured CCA Q̄ = 0.016 ml/s and MAP ≈ 92, aortic compliance at the
-**measured** value; the **carotid-bed compliance** is the one calibrated knob.
-Script: `make_control_group.py` → `eberth_control_group.json`.
+to the measured CCA Q̄ = 0.016 ml/s and MAP ≈ 92, aortic compliance ($C_a,C_b$) at
+the **measured** value; the **carotid-bed compliance ($C^{R,L}$)** is the one
+calibrated knob. Script: `make_control_group.py` → `eberth_control_group.json`.
 
 **Result — the passive RCR matches all four CCA targets:**
 
@@ -79,10 +83,10 @@ RCR is sufficient** for the baseline — no autoregulation needed.
 
 Build: HR **6.09**, remodeled carotids (RCCA-B 633/88.1, LCCA-B 482/41.6), band.
 Beds **pinned** to each carotid's measured Q̄ and MAP (RCCA-B 0.022 @ 86.5,
-LCCA-B 0.012 @ 76.8, systemic @ 76.8). Band **S calibrated to the A→B mean
+LCCA-B 0.012 @ 76.8, systemic @ 76.8). Band **$S$ calibrated to the A→B mean
 pressure drop** (MAP_A − MAP_B ≈ 9.7 mmHg — a *measured* quantity); the two
-**per-carotid bed C's calibrated to the PIs**. Script: `make_banded_group.py`
-→ `eberth_banded_group.json`.
+**per-carotid bed compliances ($C^{R},C^{L}$) calibrated to the PIs**. Script:
+`make_banded_group.py` → `eberth_banded_group.json`.
 
 **Result — matches all banded targets:**
 
@@ -123,7 +127,8 @@ Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-
   (`make_two_group_figure.py` → `figures/fig_two_group.png`) shows the fit vs
   Table 1 for PI, mean flow, MAP, and pulse pressure across CCA / RCCA-B / LCCA-B.
   The settled knobs (`make_knobs_figure.py` → `figures/fig_knobs.png`) show all the
-  R/C knobs (band S excluded), grey = control vs blue = banded: carotid bed R
-  differs by carotid (sets the flow split), the banded carotid-bed compliances are
-  ~3–4× the control's (the fitted group difference), systemic R is similar
-  (548 vs 463), and aortic C is fixed/identical (2.67e-4).
+  $R_p{+}R_d$ / $C$ knobs (band $S$ excluded), grey = control vs blue = banded:
+  bed $R_p{+}R_d$ differs by carotid (sets the flow split), the banded bed
+  compliances $C^{R},C^{L}$ are ~3–4× the control's $C^{R,L}$ (the fitted group
+  difference), systemic $R_p^{S}{+}R_d^{S}$ is similar (548 vs 463), and aortic
+  $C_a,C_b$ is fixed/identical (2.67e-4).

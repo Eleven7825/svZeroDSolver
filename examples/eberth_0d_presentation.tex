@@ -35,15 +35,16 @@ the wall growth \& remodeling Eberth measured.
 % ---------------------------------------------------------------
 \begin{frame}{The 0D model}
 \small
-Heart $\to$ aortic valve $\to$ ascending aorta $\to$ \textbf{node A} $\to$
-band $\Delta P(Q)$ $\to$ \textbf{node B} $\to$ descending aorta; a carotid RCR
-bed hangs off each node.
+Heart $\to$ aortic valve $\to$ ascending aorta ($R_a,L_a,C_a$) $\to$
+\textbf{node A} $\to$ band $\Delta P_\text{band}(Q)$ $\to$ \textbf{node B} $\to$
+descending aorta ($R_o,L_o,C_b$); a carotid RCR bed ($R_p,C,R_d$) hangs off each
+node.
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
 \begin{itemize}
   \item Vessels: RCL \texttt{BloodVessel} blocks
   \item Band: nonlinear \emph{Young--Tsai} stenosis \\
-        $\Delta P=(R+S|Q|)Q + L\,\dot Q$
+        $\Delta P_\text{band}=(R_\text{band}+S|Q|)Q + L_\text{band}\,\dot Q$
   \item Terminal beds: 3-element RCR windkessels
   \item Valve: \texttt{ValveTanh} diode
 \end{itemize}
@@ -258,10 +259,10 @@ $\Rightarrow$ Reproducing the \emph{full} amplitude needs a \textbf{1D}
 \toprule
 target (measured) & knob that sets it \\
 \midrule
-$\bar Q$ = 0.016 ml/s & carotid bed $R$ \\
-MAP = 92 mmHg & systemic $R$ \\
-PP = 42 mmHg & aortic $C$ \\
-PI = 1.16 & carotid bed $C$ \\
+$\bar Q$ = 0.016 ml/s & $R_p^{R,L}\!+\!R_d^{R,L}$ (RCR\_RIGHT/LEFT) \\
+MAP = 92 mmHg & $R_p^{S}\!+\!R_d^{S}$ (RCR\_SYS) \\
+PP = 42 mmHg & $C_a,C_b$ (aortic) \\
+PI = 1.16 & $C^{R,L}$ (RCR\_RIGHT/LEFT) \\
 \bottomrule
 \end{tabular}
 \end{column}
@@ -272,20 +273,21 @@ PI = 1.16 & carotid bed $C$ \\
 \toprule
 target (measured) & knob that sets it \\
 \midrule
-$\bar Q$ = 0.022 / 0.012 & RCCA / LCCA bed $R$ \\
-MAP = 86 / 77 & band $S$ (A$\to$B drop) $+$ sys $R$ \\
-PP = 56 / 27 & aortic $C_a, C_b$ \\
-PI = 3.11 / 1.65 & RCCA / LCCA bed $C$ \\
+$\bar Q$ = 0.022 / 0.012 & $R_p^{R}\!+\!R_d^{R}$ / $R_p^{L}\!+\!R_d^{L}$ \\
+MAP = 86 / 77 & $S$ (A$\to$B drop) $+$ $R_p^{S}\!+\!R_d^{S}$ \\
+PP = 56 / 27 & $C_a,C_b$ (aortic) \\
+PI = 3.11 / 1.65 & $C^{R}$ / $C^{L}$ \\
 \bottomrule
 \end{tabular}
 \end{column}
 \end{columns}
 \vspace{0.8em}
 \centering\scriptsize
-Bed resistances are \emph{pinned} by $(\bar Q,\text{MAP})$; the actively-tuned
-knobs are the bed compliances ($\to$ PI) and, for banded, the band $S$ ($\to$ the
-A$\to$B pressure drop). \; Fixed for both groups: HR (7.17 / 6.09), cardiac
-output CO, carotid geometry, blood $\mu,\rho$, wall moduli $E$, ejection shape.
+Bed resistances ($R_p{+}R_d$) are \emph{pinned} by $(\bar Q,\text{MAP})$; the
+actively-tuned knobs are the bed compliances $C^{R},C^{L}$ ($\to$ PI) and, for
+banded, the band $S$ ($\to$ the A$\to$B pressure drop). \; Fixed for both
+groups: HR (7.17 / 6.09), cardiac output CO, carotid geometry, blood $\mu,\rho$,
+wall moduli $E$, ejection shape.
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -300,8 +302,9 @@ states with a stock RCR:
 \centering
 \includegraphics[width=\linewidth]{fig_two_group.png}
 \\[0.2em]
-\footnotesize DOF-balanced (12 targets / 12 knobs). Cost: bed compliance differs
-between groups (fitted, not measured) --- descriptive, not a single predictive model.
+\footnotesize DOF-balanced (12 targets / 12 knobs). Cost: bed compliance
+$C^{R},C^{L}$ differs between groups (fitted, not measured) --- descriptive, not
+a single predictive model.
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -309,13 +312,13 @@ between groups (fitted, not measured) --- descriptive, not a single predictive m
 \centering
 \includegraphics[width=\linewidth]{fig_knobs.png}
 \\[0.3em]
-\footnotesize Carotid bed $R$ sets the flow split (RCCA-B low $\to$ more flow);
-the banded carotid-bed \emph{compliance} is $\sim$3--4$\times$ the control's --- a
-\textbf{fitted} difference, not measured (opposite to what autoregulation would
-do). Systemic $R$ is essentially unchanged; aortic $C$ (both the proximal and
-distal segment, either side of the band) is \textbf{not tuned in either group} ---
-same 0.64/0.36 split of the measured central aortic compliance for control and
-banded alike.
+\footnotesize $R_p{+}R_d$ (bed $R$) sets the flow split (RCCA-B low $\to$ more
+flow); the banded bed \emph{compliance} $C^{R},C^{L}$ is $\sim$3--4$\times$ the
+control's $C^{R,L}$ --- a \textbf{fitted} difference, not measured (opposite to
+what autoregulation would do). Systemic $R_p^{S}{+}R_d^{S}$ is essentially
+unchanged; aortic $C_a,C_b$ (proximal/distal, either side of the band) is
+\textbf{not tuned in either group} --- same 0.64/0.36 split of the measured
+central aortic compliance for control and banded alike.
 \end{frame}
 
 % ---------------------------------------------------------------

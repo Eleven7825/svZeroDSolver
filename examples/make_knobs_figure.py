@@ -28,11 +28,13 @@ Cc_prox=aortic_C_seg(ctrl,"ascending_aorta"); Cc_dist=aortic_C_seg(ctrl,"descend
 Cb_prox=aortic_C_seg(band,"ascending_aorta"); Cb_dist=aortic_C_seg(band,"descending_aorta")
 
 # each panel: (title, unit, values, colors, xlabels, fmt)
+# titles use the same symbols as the circuit diagram (slide 4): R_p+R_d and C
+# for the RCR_RIGHT/RCR_LEFT/RCR_SYS beds, C_a/C_b for the aortic segments.
 panels=[
- ("carotid bed $R$","mmHg·s/ml",[Rc,Rr,Rl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.0f}"),
- ("carotid bed $C$","ml/mmHg",[Cc,Cr,Cl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.1e}"),
- ("systemic bed $R$","mmHg·s/ml",[Rsys_c,Rsys_b],[GREY,BLUE],["control","banded"],"{:.0f}"),
- ("aortic $C$","ml/mmHg",[Cc_prox,Cc_dist,Cb_prox,Cb_dist],[GREY,GREY,BLUE,BLUE],
+ (r"bed $R_p\!+\!R_d$","mmHg·s/ml",[Rc,Rr,Rl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.0f}"),
+ (r"bed $C$","ml/mmHg",[Cc,Cr,Cl],[GREY,BLUE,BLUE],["CCA","RCCA-B","LCCA-B"],"{:.1e}"),
+ (r"systemic $R_p^S\!+\!R_d^S$","mmHg·s/ml",[Rsys_c,Rsys_b],[GREY,BLUE],["control","banded"],"{:.0f}"),
+ (r"aortic $C_a$ (prox.) / $C_b$ (dist.)","ml/mmHg",[Cc_prox,Cc_dist,Cb_prox,Cb_dist],[GREY,GREY,BLUE,BLUE],
   ["control\n(prox.)","control\n(dist.)","RCCA-B\n(prox.)","LCCA-B\n(dist.)"],"{:.1e}"),
 ]
 fig,axes=plt.subplots(1,4,figsize=(13.5,3.9),constrained_layout=True)
@@ -46,7 +48,7 @@ for ax,(title,unit,vals,cols,xl,fmt) in zip(axes,panels):
 import matplotlib.patches as mp
 h=[mp.Patch(color=GREY,label="control group"),mp.Patch(color=BLUE,label="banded group")]
 fig.legend(handles=h,loc="lower center",ncol=2,fontsize=10,bbox_to_anchor=(0.5,-0.14))
-fig.suptitle("Settled calibration knobs (R and C; band S excluded): control vs banded",fontsize=12.5,color=INK)
+fig.suptitle(r"Settled calibration knobs ($R_p\!+\!R_d$ and $C$; band $S$ excluded): control vs banded",fontsize=12.5,color=INK)
 fig.savefig(f"{OUT}/fig_knobs.png"); plt.close(fig)
 print("wrote",f"{OUT}/fig_knobs.png")
 print(f"  bed R : CCA {Rc:.0f} | RCCA-B {Rr:.0f} | LCCA-B {Rl:.0f}")

@@ -2,7 +2,7 @@
 
 Own-terms inputs (Tier 2, measured for the banded group):
   * HR = 6.09 Hz
-  * remodeled carotids (RCCA-B 633/88.1, LCCA-B 482/41.6)
+  * remodeled carotids (RCCA-B 591/88.1, LCCA-B 410/41.6 @ MAP)
   * band present
   * terminal-bed resistances PINNED to each carotid's measured Q̄ and MAP
     (RCCA-B: 0.022 ml/s @ MAP 86.5; LCCA-B: 0.012 @ 76.8; systemic @ 76.8)

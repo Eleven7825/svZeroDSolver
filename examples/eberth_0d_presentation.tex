@@ -213,11 +213,11 @@ band \emph{position}; remodeling is the response, not the cause.
 \toprule
  & Paper & Model \\
 \midrule
-RCCA-B PI & 3.11 & $\approx 2.9$ \\
+RCCA-B PI & 3.11 & $\approx 2.8$ \\
 LCCA-B PI & 1.65 & $\approx 1.5$ \\
 PI ratio  & 1.89 & 1.89 \\
-PP RCCA-B & 56 & 60 \\
-MAP (R/L) & similar & 98/91 \\
+PP RCCA-B & 56 & 58 \\
+MAP (R/L) & similar & 98/92 \\
 \bottomrule
 \end{tabular}
 \vspace{0.8em}
@@ -316,9 +316,9 @@ until simulated PI = target:
 \toprule
  & target PI & solved $C$ (ml/mmHg) & script \\
 \midrule
-control $C^{R,L}$ & 1.16 & $6.25\times10^{-6}$ & \texttt{make\_control\_group.py} \\
-banded $C^{R}$ (RCCA-B) & 3.11 & $2.49\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
-banded $C^{L}$ (LCCA-B) & 1.65 & $2.04\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
+control $C^{R,L}$ & 1.16 & $6.44\times10^{-6}$ & \texttt{make\_control\_group.py} \\
+banded $C^{R}$ (RCCA-B) & 3.11 & $2.56\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
+banded $C^{L}$ (LCCA-B) & 1.65 & $2.33\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -326,7 +326,7 @@ banded $C^{L}$ (LCCA-B) & 1.65 & $2.04\times10^{-5}$ & \texttt{make\_banded\_gro
 \vspace{0.2em}
 \textbf{3) Band $S$ --- bisected against the measured A$\to$B pressure drop.}
 Raising $S$ increases the drop monotonically; bisect $S\in[20,600]$ until
-$\text{MAP}_A-\text{MAP}_B=9.7$ (Table 1) $\Rightarrow$ $S=95.2$.
+$\text{MAP}_A-\text{MAP}_B=9.7$ (Table 1) $\Rightarrow$ $S=95.1$.
 \end{frame}
 
 % ---------------------------------------------------------------

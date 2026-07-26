@@ -172,7 +172,7 @@ correct (upstream more pulsatile than downstream).
 ## 5. Figures
 
 The figures below are generated from the **calibrated chronic model**
-(`eberth_aortic_band_chronic.json`, `stenosis_coefficient = 53.8`; see §8).
+(`eberth_aortic_band_chronic.json`, `stenosis_coefficient = 41.1`; see §8).
 Regenerate all figures (into `examples/figures/`) with:
 
 ```bash
@@ -212,19 +212,19 @@ Eberth measured hemodynamics **and** geometry **5 or 8 weeks after banding**,
 timing chosen to capture a *"nearly steady state adaptive response"* (paper,
 Introduction & Methods). So the Table-1 PI (RCCA-B 3.11, LCCA-B 1.65) and the
 Table-1 carotid geometry are the **chronic, post-remodeling** values — **not**
-the acute post-operative state. RCCA-B is measurably wider (633 vs 496 µm ID)
-and ~3.5× thicker-walled (88 vs 25 µm) than baseline.
+the acute post-operative state. RCCA-B is measurably wider (591 vs 484 µm ID
+@ MAP) and ~3.5× thicker-walled (88 vs 25 µm) than baseline.
 
 All three files are built by `make_configs.py` from the **same physiological
 parameters**. Pre-banding has a normal arch (no stenosis); acute and chronic add
-the **same calibrated band** (`stenosis_coefficient = 53.8`) and differ only in
+the **same calibrated band** (`stenosis_coefficient = 41.1`) and differ only in
 carotid-wall geometry:
 
 | File | Arch A→B | Carotid walls | Represents |
 |------|----------|---------------|------------|
 | `eberth_aortic_band_prebanding.json` | **normal arch** (S=0) | baseline CCA, both sides | **healthy control** before surgery |
-| `eberth_aortic_band_acute.json` | band (S=53.8) | baseline CCA, both sides | **acute** redistribution — the immediate *stimulus* |
-| `eberth_aortic_band_chronic.json` | band (S=53.8) | **Table-1 remodeled** | **chronic** 5–8-week state — stimulus *plus* wall adaptation |
+| `eberth_aortic_band_acute.json` | band (S=41.1) | baseline CCA, both sides | **acute** redistribution — the immediate *stimulus* |
+| `eberth_aortic_band_chronic.json` | band (S=41.1) | **Table-1 remodeled** | **chronic** 5–8-week state — stimulus *plus* wall adaptation |
 
 The band spacer is the same physical object post-surgery, so the stenosis was
 calibrated once (on the chronic geometry, to the chronic Table-1 PI ratio) and
@@ -234,9 +234,9 @@ reused for the acute config; the acute PI is therefore a **prediction**.
 
 | | RCCA(-B) PI | LCCA(-B) PI | PP R / L (mmHg) |
 |---|---:|---:|---:|
-| **Pre-banding** (symmetric) | 2.09 | 2.05 | 42 / 41 |
-| **Acute** (baseline carotids) | 2.85 | 1.60 | 60 / 36 |
-| **Chronic** (remodeled carotids) | 2.88 | 1.53 | 60 / 36 |
+| **Pre-banding** (symmetric) | 2.07 | 2.02 | 42 / 41 |
+| **Acute** (baseline carotids) | 2.75 | 1.64 | 58 / 37 |
+| **Chronic** (remodeled carotids) | 2.76 | 1.47 | 58 / 37 |
 | Paper Table 1 | 1.16 (CCA) → 3.11 / 1.65 | | 42 → 56 / 27 |
 
 Two things fall out. **(1)** Pre-banding is symmetric (both carotids equal) with
@@ -268,7 +268,7 @@ recalibrate with `uv run python examples/calibrate_stenosis.py examples/eberth_a
 | Heart rate | 6.09 Hz | FIXED | Eberth 2009 (banded) |
 | Cardiac output | 0.20 ml/s (12 ml/min) | FIXED | Aslanidou 2016 (anesthetized) |
 | MAP target | 90 mmHg | FIXED | Constantinides 2011 |
-| Carotid ID / wall (RCCA-B, LCCA-B) | 633/88.1, 482/41.6 µm | FIXED | Eberth 2009 Table 1 |
+| Carotid ID / wall (RCCA-B, LCCA-B) | 591/88.1, 410/41.6 µm @ MAP | FIXED | Eberth 2009 Table 1 |
 | Aorta ID (asc/desc), wall | 1.4 / 0.9 mm, 40 µm | FIXED | Casteleyn 2010, Guo & Kassab 2002 |
 | Segment lengths (carotid ~7 mm, band ~0.5 mm) | — | FIXED* | literature-guided **estimate** |
 | Vessel `R`, `L` + carotid `C` | computed | **DERIVED** | Eq. (1)–(3) from geometry + E |
@@ -277,7 +277,7 @@ recalibrate with `uv run python examples/calibrate_stenosis.py examples/eberth_a
 | RCR beds (Rp, C, Rd) | MAP/Q split 10/90, τ=RdC | **DERIVED** | flow split Feintuch 2007 / Trachet 2009 |
 | Ejection systolic fraction | 0.40 | **CALIBRATE** | assumed waveform shape |
 | Valve (Rmax, Rmin, Steepness) | 1e5, ~1, 1 | FIXED | assumed diode (not in paper) |
-| **Band `stenosis_coefficient`** | **53.8** (geom. prior 219) | **CALIBRATE** | tuned to the PI ratio |
+| **Band `stenosis_coefficient`** | **41.1** (geom. prior 219) | **CALIBRATE** | tuned to the PI ratio |
 
 ### Calibration of the stenosis coefficient
 
@@ -289,26 +289,30 @@ upstream RCCA-B PI (the band raises proximal systolic pressure) while
 non-physiological. The band's physical role is the **relative split**, so S is
 calibrated to the **PI ratio** (`3.11/1.65 = 1.885`) under a MAP guard.
 
-**Result: S\* = 53.8** →
+**Result: S\* = 41.1** →
 
-| | Paper Table 1 | model (S=53.8) |
+| | Paper Table 1 | model (S=41.1) |
 |---|---:|---:|
 | PI ratio (RCCA-B / LCCA-B) | 1.885 | **1.885** ✓ |
-| flow-PI RCCA-B | 3.11 | **2.88** (−7%) |
-| flow-PI LCCA-B | 1.65 | **1.53** (−7%) |
-| pulse pressure RCCA-B | 56.3 | **60** mmHg ✓ |
-| pulse pressure LCCA-B | 26.7 | **36** mmHg |
-| Psys / Pdia RCCA-B | 124 / 68 | 137 / 77 |
-| Psys / Pdia LCCA-B | 95 / 68 | 112 / 76 |
-| MAP RCCA-B / LCCA-B | similar | 98 / 91 mmHg ✓ |
-| Q̄ RCCA-B / LCCA-B | 0.022 / 0.012 | 0.0184 / 0.0168 ml/s (right direction) |
+| flow-PI RCCA-B | 3.11 | **2.76** (−11%) |
+| flow-PI LCCA-B | 1.65 | **1.47** (−11%) |
+| pulse pressure RCCA-B | 56.3 | **58** mmHg ✓ |
+| pulse pressure LCCA-B | 26.7 | **37** mmHg |
+| Psys / Pdia RCCA-B | 124 / 68 | 135 / 77 |
+| Psys / Pdia LCCA-B | 95 / 68 | 113 / 76 |
+| MAP RCCA-B / LCCA-B | similar | 98 / 92 mmHg ✓ |
+| Q̄ RCCA-B / LCCA-B | 0.022 / 0.012 | 0.0183 / 0.0165 ml/s (right direction) |
 
-Both flow-PIs now land within ~7% of Table 1 and RCCA-B pulse pressure is nearly
+Both flow-PIs now land within ~11% of Table 1 and RCCA-B pulse pressure is nearly
 exact. This required one correction beyond the stenosis: the aortic windkessel
 compliance `Ca`/`Cb` was raised from the ~20×-too-small per-segment geometric
 value to the **measured** central aortic compliance (2.67e-4 ml/mmHg, Aslanidou
-2016) — without it the sharp ejection was unbuffered and PP/PI ran ~2× high. The
-stenosis coefficient barely moved (58 → 53.8), so the ratio calibration is robust
-to that change. Residual discrepancies (LCCA-B pressures somewhat high, diastole
-~10 mmHg high) would tighten further by tuning the LCCA-B/systemic flow split and
-the ejection contour — neither of which is the stenosis parameter.
+2016) — without it the sharp ejection was unbuffered and PP/PI ran ~2× high. A
+later correction fixed the carotid geometry itself: Table 1 reports inner
+diameter at two conditions ("@ MAP" and "@100mmHg" ex vivo reference), and this
+model had been using the "@100mmHg" values, which over-distend each vessel by an
+amount that grows the further its own MAP sits below 100 (worst for LCCA-B).
+Switching to "@ MAP" shifted S from 53.8 to 41.1. Residual discrepancies (LCCA-B
+pressures somewhat high, diastole ~10 mmHg high) would tighten further by tuning
+the LCCA-B/systemic flow split and the ejection contour — neither of which is
+the stenosis parameter.

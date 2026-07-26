@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pysvzerod
 
 REPO = "/home/shiyi/projects/svZeroDSolver"
-# Calibrated chronic (post-remodeling) model (stenosis_coefficient = 53.8).
+# Calibrated chronic (post-remodeling) model (stenosis_coefficient = 41.1).
 CFG = f"{REPO}/examples/eberth_aortic_band_chronic.json"
 OUT = f"{REPO}/examples/figures"
 import os; os.makedirs(OUT, exist_ok=True)

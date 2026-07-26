@@ -1,5 +1,15 @@
 # Calibration attempts & the 0D limitation
 
+**Note on carotid geometry:** the numeric sweep results below predate a later
+correction to the carotid geometry (Table 1's "@100mmHg" ex vivo reference
+diameter was used instead of "@ MAP"; fixed in `make_configs.py`, see
+`eberth_aortic_band_model.md` §7/§8 and `two_group_calibration.md`). The
+post-fix numbers shift slightly (e.g. pre-banding PI 2.09→2.07, chronic
+RCCA-B PI 2.88→2.76) but the qualitative conclusions here — the amplification
+cap (~1.2–1.3×, still holds: 2.76/2.07=1.33), the downstream-below-baseline
+finding, and the overall "0D can't match both" argument — are unaffected. This
+log was not re-run after that fix.
+
 This note records **what we tried** to make the Eberth aortic-banding 0D model
 match *both* the healthy baseline and the banded carotids, and **why a 0D
 lumped model cannot do both**. It backs the "Known limitation" in

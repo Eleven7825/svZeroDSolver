@@ -153,9 +153,9 @@
         "outlet": "RCR_RIGHT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 46.63474,
-        "C": 1.0551e-06,
-        "L": 0.17685
+        "R_poiseuille": 61.37259,
+        "C": 8.587e-07,
+        "L": 0.202879
       }
     },
     {
@@ -166,7 +166,7 @@
       "zero_d_element_values": {
         "R_poiseuille": 19.68304,
         "L": 0.030707,
-        "stenosis_coefficient": 53.8
+        "stenosis_coefficient": 41.1
       }
     },
     {
@@ -178,9 +178,9 @@
         "outlet": "RCR_LEFT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 138.71908,
-        "C": 9.865e-07,
-        "L": 0.305013
+        "R_poiseuille": 264.96526,
+        "C": 6.072e-07,
+        "L": 0.421546
       }
     },
     {

@@ -153,9 +153,9 @@
         "outlet": "RCR_RIGHT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 123.70796,
-        "C": 1.8032e-06,
-        "L": 0.288037
+        "R_poiseuille": 136.44038,
+        "C": 1.6755e-06,
+        "L": 0.302497
       }
     },
     {
@@ -178,9 +178,9 @@
         "outlet": "RCR_LEFT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 123.70796,
-        "C": 1.8032e-06,
-        "L": 0.288037
+        "R_poiseuille": 136.44038,
+        "C": 1.6755e-06,
+        "L": 0.302497
       }
     },
     {

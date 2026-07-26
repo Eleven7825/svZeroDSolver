@@ -15,7 +15,9 @@ self-imposed. This note plans and logs a group-specific calibration.
 - **Tier 1 — shared species invariants** (never tuned): blood µ/ρ, topology,
   ejection-waveform shape, aortic & carotid wall modulus E.
 - **Tier 2 — group-specific, fixed from measurement**: HR (7.17 control / 6.09
-  banded), carotid geometry (CCA 496/24.8; RCCA-B 633/88.1; LCCA-B 482/41.6),
+  banded), carotid geometry (inner diameter **@ MAP**, Table 1: CCA 484/24.8;
+  RCCA-B 591/88.1; LCCA-B 410/41.6 — not the "@100mmHg" ex vivo reference
+  diameter, since each vessel here runs at its own physiological MAP),
   band geometry (banded only). Plus the measured per-vessel Q̄ and pressures,
   used as *constraints* that pin the bed resistances and mean operating point.
 - **Tier 3 — free knobs, calibrated to each group's own targets**: terminal-bed
@@ -48,7 +50,7 @@ calibrated knob. Script: `make_control_group.py` → `eberth_control_group.json`
 
 | knob | flow-PI | Q̄ | MAP | pulse pressure |
 |---|---:|---:|---:|---:|
-| carotid-bed C = **6.25e-6** (calibrated) | **1.16** ✓ | 0.0161 ✓ | 94 ✓ | **41 ≈ 42.5** ✓ |
+| carotid-bed C = **6.44e-6** (calibrated) | **1.16** ✓ | 0.0160 ✓ | 94 ✓ | **41 ≈ 42.5** ✓ |
 | paper CCA target | 1.16 | 0.016 | ~92 | 42.5 |
 
 **Findings (facts):**
@@ -58,7 +60,7 @@ calibrated knob. Script: `make_control_group.py` → `eberth_control_group.json`
 3. **The flow pulsatility is set by the *carotid bed compliance*** (the flow
    admittance): low bed C → flow tracks pressure resistively, PI → PP/MAP ≈ 0.46;
    high bed C → the capacitor adds flow swing, PI → large; an intermediate value
-   (6.25e-6) gives PI = 1.16.
+   (6.44e-6) gives PI = 1.16.
 4. Because the carotid is a **minor branch (~9% of CO)**, tuning its bed C moves
    the flow-PI **without disturbing the pressure pulse** — so all four targets
    (PI, Q̄, MAP, PP) are matched together.
@@ -81,7 +83,7 @@ RCR is sufficient** for the baseline — no autoregulation needed.
   under-determined for the two banded PIs (see `calibration_and_limits.md`).
 ## Step 2 — BANDED group on its own terms (executed)
 
-Build: HR **6.09**, remodeled carotids (RCCA-B 633/88.1, LCCA-B 482/41.6), band.
+Build: HR **6.09**, remodeled carotids (RCCA-B 591/88.1, LCCA-B 410/41.6 @ MAP), band.
 Beds **pinned** to each carotid's measured Q̄ and MAP (RCCA-B 0.022 @ 86.5,
 LCCA-B 0.012 @ 76.8, systemic @ 76.8). Band **$S$ calibrated to the A→B mean
 pressure drop** (MAP_A − MAP_B ≈ 9.7 mmHg — a *measured* quantity); the two
@@ -92,11 +94,11 @@ pressure drop** (MAP_A − MAP_B ≈ 9.7 mmHg — a *measured* quantity); the tw
 
 | vessel | flow-PI | Q̄ | MAP | PP |
 |---|---:|---:|---:|---:|
-| RCCA-B | **3.09** ✓ | 0.0221 ✓ | 88 ✓ | 63 (meas 56) |
-| LCCA-B | **1.65** ✓ | 0.0120 ✓ | 79 ✓ | 31 (meas 27) |
+| RCCA-B | **3.10** ✓ | 0.0221 ✓ | 88 ✓ | 63 (meas 56) |
+| LCCA-B | **1.65** ✓ | 0.0118 ✓ | 79 ✓ | 31 (meas 27) |
 | A→B MAP drop | 9.4 (meas 9.7) | | | |
 
-Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-5.
+Calibrated knobs: band **S = 95.1**, RCCA-B bed C = 2.56e-5, LCCA-B bed C = 2.33e-5.
 
 **Findings:**
 1. The banded group matches **all** its own targets (both PIs, both flows, both
@@ -105,7 +107,7 @@ Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-
    PI), a cleaner mechanistic constraint than the earlier ratio-only S.
 3. The two PIs are hit by the two **per-carotid bed compliances** (flow-admittance
    knobs) — DOF-balanced (8 targets / 8 knobs), as the plan predicted.
-4. The two carotid beds came out **similar** (2.5 vs 2.0e-5), so the RCCA-B ≫
+4. The two carotid beds came out **similar** (2.56 vs 2.33e-5), so the RCCA-B ≫
    LCCA-B pulsatility asymmetry is driven mainly by **band position + geometry**,
    not by asymmetric cerebral beds — a mechanistically satisfying outcome.
 
@@ -118,7 +120,7 @@ Calibrated knobs: band **S = 95.2**, RCCA-B bed C = 2.5e-5, LCCA-B bed C = 2.0e-
   per-carotid bed C) is well-posed and **succeeds** — the earlier "can't match
   both" was specific to the **mechanistic single-shared-parameter-set** route.
 - **Cost (the descriptive price):** the fitted terminal-bed compliance differs
-  between groups (control 6.25e-6 vs banded ~2e-5, ~3–4×). That group difference
+  between groups (control 6.44e-6 vs banded ~2.3–2.6e-5, ~3.6–4×). That group difference
   is fitted, not independently measured. So the two configs are two calibrated
   states, linked by the band (anchored to the measured drop) and the measured
   geometry/HR/flows — not a single predictive model.

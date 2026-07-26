@@ -2,13 +2,16 @@
 group) and CCA (control group) over each config's own converged cardiac cycle
 -- the inputs a future G&R model needs. WSS is not a solver output: computed
 via Poiseuille tau_w = 4*mu*Q(t)/(pi*r^3) using each vessel's fixed lumen
-radius (Eberth Table 1: chronic RCCA-B/LCCA-B for banded, baseline CCA for
-control).
+radius. Radii are imported from make_configs.CAROTID -- the "@ MAP" diameters
+(each vessel's own physiological pressure), not the "@100mmHg" ex vivo
+reference -- so this stays consistent with the geometry actually built into
+the configs.
 """
 import numpy as np
 import pysvzerod
 import matplotlib as mpl
 mpl.use("Agg"); import matplotlib.pyplot as plt
+import make_configs as mc
 
 REPO="/home/shiyi/projects/svZeroDSolver"; OUT=f"{REPO}/examples/figures"
 BLUE, GREEN, GREY, INK, INK2, GRID = "#2a78d6", "#008300", "#8a8a86", "#0b0b0b", "#52514e", "#e6e6e2"
@@ -18,10 +21,10 @@ mpl.rcParams.update({"figure.dpi":200,"savefig.dpi":200,"savefig.bbox":"tight","
     "grid.linewidth":0.8,"axes.axisbelow":True,"legend.frameon":False,
     "axes.spines.top":False,"axes.spines.right":False})
 
-MU = 0.035                              # poise (3.5 cP, Windberger 2003)
-R_RCCA = 633.0e-4 / 2                    # cm, chronic RCCA-B lumen radius (Eberth Table 1)
-R_LCCA = 482.0e-4 / 2                    # cm, chronic LCCA-B lumen radius
-R_CCA  = 496.0e-4 / 2                    # cm, baseline CCA lumen radius (control)
+MU = mc.mu                                          # poise (3.5 cP, Windberger 2003)
+R_RCCA = mc.CAROTID["RCCA_B"]["d"] * 1e-4 / 2        # cm, chronic RCCA-B lumen radius @ MAP
+R_LCCA = mc.CAROTID["LCCA_B"]["d"] * 1e-4 / 2        # cm, chronic LCCA-B lumen radius @ MAP
+R_CCA  = mc.CAROTID["CCA_baseline"]["d"] * 1e-4 / 2  # cm, baseline CCA lumen radius @ MAP (control)
 
 def load(cfg, vessel, r_lumen):
     df = pysvzerod.simulate(f"{REPO}/examples/{cfg}")

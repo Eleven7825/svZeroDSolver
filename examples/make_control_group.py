@@ -4,7 +4,7 @@ Rationale: control (CCA) and banded (RCCA-B/LCCA-B) are two separate animal
 groups, so they need not share R/C/L. Here the control is built from the
 control group's own measured quantities:
   * HR = 7.17 Hz (control; banded is 6.09)          [Tier 2, measured]
-  * carotid geometry = baseline CCA 496/24.8 um       [Tier 2, measured]
+  * carotid geometry = baseline CCA 484/24.8 um @ MAP [Tier 2, measured]
   * terminal beds PINNED to the measured CCA Qbar=0.016 ml/s and MAP~92 mmHg
   * no band (normal arch)
   * aortic compliance = the free/uncertain knob; we test the measured value

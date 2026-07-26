@@ -15,7 +15,7 @@ via Eq. (1)-(3):
 in CGS, then converted to the solver's mmHg / ml / s units.
 
 The band spacer is the same physical object in both states, so the calibrated
-stenosis_coefficient (S = 53.8, from calibrate_stenosis.py on the chronic
+stenosis_coefficient (S = 41.1, from calibrate_stenosis.py on the chronic
 geometry / PI ratio) is used for BOTH. Parameters are tagged FIXED / DERIVED /
 CALIBRATE in description.parameter_tags.
 
@@ -27,7 +27,7 @@ carotid dims - Eberth 2009 Table 1, Ferruzzi 2013; E - Ferruzzi 2013 / Wagenseil
 import json, math
 
 OUTDIR = "/home/shiyi/projects/svZeroDSolver/examples"
-S_CALIB = 53.8   # calibrated band stenosis_coefficient (PI ratio, chronic geometry)
+S_CALIB = 41.1   # calibrated band stenosis_coefficient (PI ratio, chronic geometry @MAP)
 
 # ---- unit conversion --------------------------------------------------------
 MMHG = 1333.22          # 1 mmHg in dyn/cm^2
@@ -53,12 +53,19 @@ MAP  = 90.0           # mmHg target (anesthetized; Constantinides 2011)
 # ---- geometry [cm] : (radius, length, wall thickness) -----------------------
 asc = dict(r=0.070, l=0.25, h=0.0040)     # ascending aorta, ID~1.4 mm
 des = dict(r=0.045, l=0.80, h=0.0040)     # descending aorta, ID~0.9 mm
-# carotid geometry sets from Eberth Table 1 (ID [um], wall [um]); length ~7 mm.
+# carotid geometry sets from Eberth Table 1 (ID [um] @ MAP, wall [um]); length
+# ~7 mm. Table 1 reports inner diameter at TWO conditions -- "@ MAP" (each
+# vessel's own physiological pressure) and "@ 100 mmHg" (a common ex vivo
+# reference pressure for cross-group comparison). We use "@ MAP" since this
+# model runs each vessel at its own distinct physiological MAP, not a shared
+# 100 mmHg -- the "@100mmHg" values (496/633/482) over-distend each vessel by
+# an amount that grows with how far its own MAP sits below 100 (worst for
+# LCCA-B: MAP~77, ~18% diameter inflation vs ~2.5% for CCA at MAP~92).
 CAROTID = {
-    #                       ID   wall
-    "CCA_baseline": dict(d=496.0, h=24.8),   # un-remodeled (acute, both sides)
-    "RCCA_B":       dict(d=633.0, h=88.1),   # remodeled right (chronic)
-    "LCCA_B":       dict(d=482.0, h=41.6),   # remodeled left  (chronic)
+    #                       ID (@ MAP)   wall
+    "CCA_baseline": dict(d=484.0, h=24.8),   # un-remodeled (acute, both sides)
+    "RCCA_B":       dict(d=591.0, h=88.1),   # remodeled right (chronic)
+    "LCCA_B":       dict(d=410.0, h=41.6),   # remodeled left  (chronic)
 }
 def carotid_geom(key):
     g = CAROTID[key]

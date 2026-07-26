@@ -49,11 +49,11 @@
       "carotid_geometry_ID_wall_um": {
         "value": {
           "RCCA": [
-            496.0,
+            484.0,
             24.8
           ],
           "LCCA": [
-            496.0,
+            484.0,
             24.8
           ]
         },
@@ -102,7 +102,7 @@
         "src": "throat geometry (Young-Tsai viscous+inertial)"
       },
       "AB_segment_stenosis_coefficient": {
-        "value": 53.8,
+        "value": 41.1,
         "prior": 219.1,
         "tag": "CALIBRATE",
         "src": "geometry prior Kt=1.5; calibrated on chronic geometry to PI ratio, reused (same physical band)"
@@ -411,9 +411,9 @@
         "outlet": "RCR_RIGHT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 123.70796,
-        "C": 1.8032e-06,
-        "L": 0.288037
+        "R_poiseuille": 136.44038,
+        "C": 1.6755e-06,
+        "L": 0.302497
       }
     },
     {
@@ -424,7 +424,7 @@
       "zero_d_element_values": {
         "R_poiseuille": 19.68304,
         "L": 0.030707,
-        "stenosis_coefficient": 53.8
+        "stenosis_coefficient": 41.1
       }
     },
     {
@@ -436,9 +436,9 @@
         "outlet": "RCR_LEFT"
       },
       "zero_d_element_values": {
-        "R_poiseuille": 123.70796,
-        "C": 1.8032e-06,
-        "L": 0.288037
+        "R_poiseuille": 136.44038,
+        "C": 1.6755e-06,
+        "L": 0.302497
       }
     },
     {

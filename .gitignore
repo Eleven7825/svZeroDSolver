@@ -48,3 +48,11 @@ venv/
 
 # uv lockfile (resolved fresh by `uv sync`; not committed for this package)
 uv.lock
+
+# LaTeX build byproducts
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.out

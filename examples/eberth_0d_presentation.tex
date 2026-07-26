@@ -357,6 +357,18 @@ compliance differs between groups (fitted) --- descriptive, not predictive.
 \end{frame}
 
 % ---------------------------------------------------------------
+\begin{frame}{Looking ahead: inputs for growth \& remodeling (G\&R)}
+\centering
+\includegraphics[height=0.58\textheight]{fig_gr_timeseries.png}
+\\[0.3em]
+\footnotesize Flow $Q(t)$ and pressure $P(t)$ come directly from the solver;
+wall shear stress $\tau_w(t)$ is \textbf{not} a solver output --- computed via
+Poiseuille $\tau_w=4\mu Q(t)/(\pi r^3)$ using each vessel's fixed lumen radius.
+These per-cycle time series (not just the mean/PI summaries used for
+calibration) are the raw inputs a future G\&R model would consume.
+\end{frame}
+
+% ---------------------------------------------------------------
 \begin{frame}{Summary}
 \begin{itemize}
   \item A literature-parameterized 0D model reproduces the Eberth

@@ -291,6 +291,43 @@ $\mu,\rho$, wall moduli $E$, ejection shape.
 \end{frame}
 
 % ---------------------------------------------------------------
+\begin{frame}{How each parameter is actually derived}
+\scriptsize
+\textbf{1) Bed resistance $R_p{+}R_d$ --- closed form, not searched.} Time-average
+the RCR equations over one period ($\overline{dP_c/dt}=0$ in periodic steady
+state):
+\[
+P_{in}\!-\!P_c\!-\!R_pQ_{in}=0,\;\; R_dQ_{in}\!-\!P_c\!+\!P_{ref}\!-\!R_dC\dot P_c=0
+\;\;\xrightarrow{\text{avg}}\;\;
+R_p{+}R_d=\frac{\text{MAP}-P_{ref}}{\bar Q}=\frac{\text{MAP}}{\bar Q}\;\;(P_{ref}{=}0)
+\]
+using each vessel's own measured $\bar Q$ and target local MAP; split $R_p{:}R_d=10{:}90$
+(assumed convention). Same formula for RCR\_RIGHT/LEFT/SYS in both groups.
+
+\vspace{0.4em}
+\textbf{2) Bed compliance $C$ --- bisected against PI (monotone in $C$).}
+Low $C$: capacitor inert, PI $\to$ PP/MAP (resistive limit); high $C$: capacitor
+adds flow swing, PI grows. 28-step bisection on $C\in[10^{-7},2{\times}10^{-4}]$
+until simulated PI = target:
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+ & target PI & solved $C$ (ml/mmHg) & script \\
+\midrule
+control $C^{R,L}$ & 1.16 & $6.25\times10^{-6}$ & \texttt{make\_control\_group.py} \\
+banded $C^{R}$ (RCCA-B) & 3.11 & $2.49\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
+banded $C^{L}$ (LCCA-B) & 1.65 & $2.04\times10^{-5}$ & \texttt{make\_banded\_group.py} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.2em}
+\textbf{3) Band $S$ --- bisected against the measured A$\to$B pressure drop.}
+Raising $S$ increases the drop monotonically; bisect $S\in[20,600]$ until
+$\text{MAP}_A-\text{MAP}_B=9.7$ (Table 1) $\Rightarrow$ $S=95.2$.
+\end{frame}
+
+% ---------------------------------------------------------------
 \begin{frame}{Revised: two-group calibration (control vs.\ banded)}
 \small
 Control (CCA) and banded (RCCA-B/LCCA-B) are \textbf{two separate animal groups} ---

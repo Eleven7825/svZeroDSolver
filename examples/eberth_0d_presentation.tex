@@ -261,7 +261,6 @@ target & how it's matched & status \\
 \midrule
 $\bar Q$=0.016 & bed $R_p{+}R_d$ & pinned \\
 MAP=92 & sys $R_p^{S}{+}R_d^{S}$ & pinned \\
-PP=42 & $C_a,C_b$ (aortic) & fixed \\
 PI=1.16 & bed $C^{R,L}$ & \textbf{KNOB} \\
 \bottomrule
 \end{tabular}
@@ -275,7 +274,6 @@ target & how it's matched & status \\
 \midrule
 $\bar Q$=0.022/0.012 & bed $R_p^{R}{+}R_d^{R}$ / $R_p^{L}{+}R_d^{L}$ & pinned \\
 MAP=86/77 & sys $R$ (pinned) $+$ band $S$ & \textbf{KNOB} \\
-PP=56/27 & $C_a,C_b$ (aortic) & fixed \\
 PI=3.11/1.65 & bed $C^{R}$ / $C^{L}$ & \textbf{KNOB} \\
 \bottomrule
 \end{tabular}
@@ -286,10 +284,10 @@ PI=3.11/1.65 & bed $C^{R}$ / $C^{L}$ & \textbf{KNOB} \\
 \textbf{Only 4 parameters are actually free/calibrated} (control bed $C^{R,L}$;
 banded bed $C^{R}$, $C^{L}$, band $S$). Bed resistances ($R_p{+}R_d$, all beds)
 are \emph{pinned} --- solved directly from $(\bar Q,\text{MAP})$ via Ohm's law,
-not searched. Aortic $C_a,C_b$ is \emph{fixed} literature, identical in both
-groups --- its PP match is therefore \emph{emergent}, not tuned. \; Also fixed:
-HR (7.17/6.09), CO, carotid geometry, blood $\mu,\rho$, wall moduli $E$,
-ejection shape.
+not searched. (PP omitted above: it's matched by the aortic $C_a,C_b$, which is
+\emph{fixed} literature identical in both groups --- an \emph{emergent} match,
+not a tuned one.) \; Also fixed: HR (7.17/6.09), CO, carotid geometry, blood
+$\mu,\rho$, wall moduli $E$, ejection shape.
 \end{frame}
 
 % ---------------------------------------------------------------
@@ -312,15 +310,14 @@ compliance differs between groups (fitted) --- descriptive, not predictive.
 % ---------------------------------------------------------------
 \begin{frame}{Settled calibration knobs: control vs.\ banded}
 \centering
-\includegraphics[width=\linewidth]{fig_knobs.png}
+\includegraphics[height=0.58\textheight]{fig_knobs.png}
 \\[0.3em]
 \footnotesize $R_p{+}R_d$ (bed $R$) sets the flow split (RCCA-B low $\to$ more
 flow); the banded bed \emph{compliance} $C^{R},C^{L}$ is $\sim$3--4$\times$ the
 control's $C^{R,L}$ --- a \textbf{fitted} difference, not measured (opposite to
 what autoregulation would do). Systemic $R_p^{S}{+}R_d^{S}$ is essentially
-unchanged; aortic $C_a,C_b$ (proximal/distal, either side of the band) is
-\textbf{not tuned in either group} --- same 0.64/0.36 split of the measured
-central aortic compliance for control and banded alike.
+unchanged. (Aortic $C_a,C_b$ omitted here --- it's fixed literature, identical
+in both groups, not a calibrated knob.)
 \end{frame}
 
 % ---------------------------------------------------------------

@@ -64,8 +64,10 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 
 % ---------------------------------------------------------------
 \begin{frame}{0D circuit (electric analogy)}
+\begin{columns}[T]
+\begin{column}{0.68\textwidth}
 \centering
-\resizebox{0.92\textwidth}{!}{%
+\resizebox{\linewidth}{!}{%
 \begin{circuitikz}[every label/.style={font=\footnotesize},
                    every node/.style={font=\footnotesize}]
 % main aortic line: heart flow source + valve
@@ -102,7 +104,33 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 \draw (sa) -- ++(0.55,0) to[R, l=$R_d^{S}$] ++(0,-1) node[ground]{};
 \node[align=center, font=\scriptsize] at (11.0,0.95) {systemic load};
 \end{circuitikz}}
-\\[0.3em]
+\end{column}
+\begin{column}{0.32\textwidth}
+\scriptsize
+\begin{tabular}{@{}ll@{}}
+\toprule
+symbol & component (this repo) \\
+\midrule
+$Q_\text{in}(t)$ & \texttt{INFLOW} \\
+valve & \texttt{aortic\_valve} \\
+$R_a,L_a,C_a$ & \texttt{ascending\_aorta} \\
+$\Delta P_\text{band}(Q)$ & \texttt{aortic\_band} \\
+$R_o,L_o,C_b$ & \texttt{descending\_aorta} \\
+node A / B & \texttt{node\_A} / \texttt{node\_B} \\
+$R_p^{R},C^{R},R_d^{R}$ & \texttt{RCR\_RIGHT} \\
+$R_p^{L},C^{L},R_d^{L}$ & \texttt{RCR\_LEFT} \\
+$R_p^{S},C^{S},R_d^{S}$ & \texttt{RCR\_SYS} \\
+\bottomrule
+\end{tabular}
+\\[0.6em]
+\raggedright\tiny Not drawn (negligible): \texttt{aortic\_root} ($R,L$ before the
+valve) and the carotid conduits \texttt{rcca\_b}/\texttt{lcca\_b} ($R,L,C$ between
+node A/B and \texttt{RCR\_RIGHT}/\texttt{RCR\_LEFT}) --- their own wall
+compliance is tiny next to the bed/aortic $C$.
+\end{column}
+\end{columns}
+\vspace{0.3em}
+
 \footnotesize Pressure $\leftrightarrow$ voltage, flow $\leftrightarrow$ current.
 Node A (RCCA-B) is upstream of the band and stays pulsatile; node B (LCCA-B) is
 downstream and damped. Each terminal bed is an $R_p$--$C$--$R_d$ Windkessel.

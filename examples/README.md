@@ -104,3 +104,10 @@ residual flow-PI amplitude gap is not accounted for by any factor tested. Full
 write-up with numbers:
 [`calibration_and_limits.md`](./calibration_and_limits.md). The contractile-heart
 experiment is reproducible via `make_elastance_config.py`.
+
+## Growth & remodeling (G&R) extension
+
+Using this calibrated model's per-vessel time series as the mechanical loading
+for a G&R model, to test whether cells sense pulsatility, mean value, or both
+when remodeling — plan, tool inventory, and progress log:
+[`gr_extension.md`](./gr_extension.md).

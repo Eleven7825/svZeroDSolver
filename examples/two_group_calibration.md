@@ -27,6 +27,70 @@ self-imposed. This note plans and logs a group-specific calibration.
   pinned by (Q̄, MAP), so they are not free. Symbols match the circuit diagram
   in `eberth_0d_presentation.tex` (slide 4).
 
+## Data sources
+
+Every Tier 1/Tier 2 (FIXED) value above traces to a specific citation, tagged
+in each generated config's `description.parameter_tags` (see `make_configs.py`).
+Full list:
+
+| quantity | value | source |
+|---|---|---|
+| blood density ρ | 1.06 g/cm³ | Aslanidou et al. 2016 |
+| blood viscosity µ | 3.5 cP (high-shear) | Windberger et al. 2003 |
+| aortic wall modulus `E_aorta` | 1.0 MPa | Yanagisawa & Wagenseil 2019 / Bersi et al. 2014 |
+| carotid wall modulus `E_carotid` | 1.5 MPa (systolic, linearized) | Ferruzzi, Bersi & Humphrey 2013 |
+| heart rate HR | 7.17 Hz (control) / 6.09 Hz (banded) | Eberth et al. 2009 |
+| cardiac output CO | 0.20 ml/s (~12 ml/min, anesthetized) | Aslanidou et al. 2016; cf. Janssen et al. 2002, Mills et al. 2000 |
+| MAP target | ~92 mmHg | Constantinides et al. 2011; cf. Janssen et al. 2002, Mills et al. 2000 |
+| carotid geometry (ID @ MAP, wall) | CCA 484/24.8; RCCA-B 591/88.1; LCCA-B 410/41.6 µm | Eberth et al. 2009, Table 1 |
+| aorta geometry (ID, wall) | ascending 1.4 mm / descending 0.9 mm / wall 40 µm | Casteleyn et al. 2010; Guo & Kassab 2003 |
+| aortic buffer compliance $C_a, C_b$ | 2.67e-4 ml/mmHg (measured central aortic compliance) | Aslanidou et al. 2016 |
+| RCR bed flow split (10/90 Rp/Rd; carotid vs. systemic Q̄ split) | — | Feintuch et al. 2007; Trachet et al. 2009 |
+| per-vessel targets: PI, Q̄, MAP, PP | CCA 1.16/0.016/92/42.5; RCCA-B 3.11/0.022/86.5/56; LCCA-B 1.65/0.012/76.8/27; A→B MAP drop 9.7 | Eberth et al. 2009, Table 1 + text |
+
+**References** (full citations):
+
+- Eberth JF, Taucer AI, Wilson E, Humphrey JD. Importance of pulsatility in
+  hypertensive carotid artery growth and remodeling. *J Hypertens*
+  27(10):2010–2021, 2009.
+- Aslanidou L, Trachet B, Reymond P, Fraga-Silva RA, Segers P, Stergiopulos N.
+  A 1D model of the arterial circulation in mice. *ALTEX* 33(1):13–28, 2016.
+- Windberger U, Bartholovitsch A, Plasenzotti R, Korak KJ, Heinze G. Whole
+  blood viscosity, plasma viscosity and erythrocyte aggregation in nine
+  mammalian species: reference values and comparison of data. *Exp Physiol*
+  88(3):431–440, 2003.
+- Yanagisawa H, Wagenseil J. Elastic fibers and biomechanics of the aorta:
+  insights from mouse studies. *Matrix Biol* 85–86:160–172, 2019/2020.
+- Ferruzzi J, Bersi MR, Humphrey JD. Biomechanical phenotyping of central
+  arteries in health and disease: advantages of and methods for murine models.
+  *Ann Biomed Eng* 41(7):1311–1330, 2013.
+- Bersi MR, Ferruzzi J, Eberth JF, Gleason RL Jr, Humphrey JD. Consistent
+  biomechanical phenotyping of common carotid arteries from seven genetic,
+  pharmacological, and surgical mouse models. *Ann Biomed Eng*
+  42(6):1207–1223, 2014.
+- Casteleyn C, Trachet B, Van Loo D, Devos DG, Van Hoorebeke L, Segers P,
+  Simoens P. Validation of the murine aortic arch as a model to study human
+  vascular diseases. *J Anat* 216(5):563–571, 2010.
+- Guo X, Kassab GS. Variation of mechanical properties along the length of the
+  aorta in C57BL/6 mice. *Am J Physiol Heart Circ Physiol* 285(6):H2614–H2622,
+  2003 (cited elsewhere in this project as "Guo & Kassab 2002" per submission
+  year).
+- Feintuch A, Ruengsakulrach P, Lin A, et al. Hemodynamics in the mouse aortic
+  arch as assessed by MRI, ultrasound, and numerical modeling. *Am J Physiol
+  Heart Circ Physiol* 292(2):H884–H892, 2007.
+- Trachet B, Swillens A, Van Loo D, Casteleyn C, De Paepe A, Loeys B, Segers P.
+  The influence of aortic dimensions and boundary conditions on calculated
+  wall shear stress in the mouse aortic arch. *Comput Methods Biomech Biomed
+  Engin* 12(5):491–499, 2009.
+- Janssen BJ, Debets JJ, Leenders PJ, Smits JF. Chronic measurement of cardiac
+  output in conscious mice. *Am J Physiol Regul Integr Comp Physiol*
+  282(3):R928–R935, 2002.
+- Constantinides C, Mean R, Janssen BJ. Effects of isoflurane anesthesia on the
+  cardiovascular function of the C57BL/6 mouse. *ILAR J* 52:e21–e31, 2011.
+- Mills PA, Huetteman DA, Brockway BP, et al. A new method for measurement of
+  blood pressure, heart rate, and activity in the mouse by radiotelemetry.
+  *J Appl Physiol* 88(5):1537–1544, 2000.
+
 ## Identifiability (DOF)
 
 Targets per vessel = {P_sys, P_dias, Q̄, PI} = 4.

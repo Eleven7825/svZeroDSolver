@@ -64,16 +64,36 @@ paper reports.
   Bellini's own reported mouse cohort (r_i=299 um, h=26 um, MAP~93 mmHg) --
   those mice are a different cohort/strain/age than Eberth's, and the whole
   point of this project is Eberth's specific animals.
-* NOT available from either paper, kept at gr's generic default (flagged): the
-  turnover fiber's degradation rate k_d and mechanosensitivity gain. These
-  don't actually enter the equilibrated-CMM's algebraic equilibrium equation at
-  all (turnover rate only matters for TRANSIENT dynamics -- homogenized/full
-  CMM, not this fast equilibrium test) -- so this gap doesn't affect the result
-  below, only future transient-model steps. Elastin's deposition stretch G is
-  also kept at gr's generic default: Bellini's elastin deposition stretch is an
-  anisotropic (circumferential/axial/radial) triad for a structurally
-  different, anisotropic elastin law, not compatible with gr's simpler
-  isotropic single-scalar elastin formulation.
+* Turnover fiber's degradation rate k_d -- Cyron, Aydin, Humphrey (2016),
+  "A homogenized constrained mixture (and mechanical analog) model for growth
+  and remodeling of soft tissue," Biomech Model Mechanobiol 15:1389-1403 --
+  THIS is the exact paper `homogenized_cmm.py` implements. Their own numerical
+  example uses a shared collagen+SMC time constant T=70 days (k_d=1/T). Not
+  mouse-carotid-specific (their example is an aortic aneurysm), but it is the
+  originating paper's own choice for this exact algorithm, so we adopt it in
+  place of the previous unsourced "20-day small-vessel" guess. Doesn't affect
+  the result below either way -- k_d never enters the equilibrated-CMM's
+  algebraic equilibrium equation (it only matters for TRANSIENT dynamics --
+  homogenized/full CMM, a later step).
+* Mechanosensitivity gain -- NOT resolved to a specific cited number. The
+  Cyron-lineage papers (Cyron, Wilson & Humphrey 2014, the model's stability
+  paper) report a normalized gain*time-constant product around 0.05-0.15,
+  which -- IF the two papers' gain definitions line up exactly (unconfirmed;
+  some papers fold the 1/T into the reported constant, others don't) -- would
+  be roughly an order of magnitude below gr's default gain=1.0. We do NOT
+  import that number without confirming the convention matches gr's
+  `dM/dt = M*(gain*k_d)*dev`, since silently applying a mismatched definition
+  could introduce a worse error than the placeholder it replaces. Flagged for
+  whoever picks up the transient (homogenized/full CMM) step next -- like
+  k_d, this has zero effect on the equilibrated-CMM result below.
+* Elastin's deposition stretch G is kept at gr's default (1.40). This is not
+  a gap specific to our mouse-CCA sourcing: elastin doesn't turn over in the
+  adult, so no constrained-mixture paper (including the two used above) can
+  FIT this value from postnatal data -- every paper in this literature ASSUMES
+  it a priori, and the real four-fiber-family papers assume an anisotropic
+  (circumferential/axial/radial) triad, not a single scalar compatible with
+  gr's isotropic elastin law. No paper gives a better mouse-CCA-specific
+  scalar to use instead.
 
 Requires the Growth-Remodeling repo checked out one level up (../../Growth-Remodeling).
 """
@@ -105,7 +125,10 @@ G_CIRC_FIBER = 0.5 * (1.07 + 1.09)          # circumferential collagen+SMC famil
 BERSI_CONTROL = dict(elastin_c=8.126, collagen_c1=4.782, collagen_c2=0.041)
 BERSI_BANDING_35_56D = dict(elastin_c=4.025, collagen_c1=9.920, collagen_c2=11.579)   # reported only, NOT used as model input -- see docstring
 
-_generic = {c.name: c for c in default_constituents()}   # only for the 2 fields no paper reports (elastin G; turnover k_d/gain)
+K_D_TURNOVER = 1.0 / 70.0   # Cyron, Aydin & Humphrey (2016) own numerical example, T=70 days
+GAIN_TURNOVER = 1.0         # NOT resolved to a specific cited number -- see docstring
+
+_generic = {c.name: c for c in default_constituents()}   # only for elastin's deposition stretch G (no paper gives a compatible scalar)
 _phi_sum = PHI_ELASTIN + PHI_MEDIA_SMC + PHI_COLLAGEN
 model = Model(
     R=R_MID_MM,
@@ -116,7 +139,7 @@ model = Model(
                     k_d=0.0, gain=0.0, degradable=True),
         Constituent("collagen_smc", phi0=(PHI_MEDIA_SMC + PHI_COLLAGEN) / _phi_sum, G=G_CIRC_FIBER,
                     law=FungFiber(c1=BERSI_CONTROL["collagen_c1"], c2=BERSI_CONTROL["collagen_c2"]),
-                    k_d=_generic["collagen"].k_d, gain=_generic["collagen"].gain),
+                    k_d=K_D_TURNOVER, gain=GAIN_TURNOVER),
     ],
 )
 geom = artery(model)

@@ -124,13 +124,14 @@ supports for any number of turnover constituents, no code change needed.
 | `R` (mid-wall radius) | 0.2544 mm | our own calibrated Eberth CCA baseline (`make_configs.CAROTID["CCA_baseline"]`: d=484, h=24.8 µm @ MAP) |
 | `P_h` (homeostatic pressure) | 12.266 kPa (= 92 mmHg) | our own calibrated CCA MAP (`make_control_group.MAP`) |
 | elastin `phi0` | 0.2525 | Bellini et al. 2014 (0.249, renormalized) |
-| elastin `G` | 1.40 | **`gr` generic default — flagged.** Bellini's elastin deposition stretch is an anisotropic (circumferential/axial/radial) triad for a structurally different, anisotropic elastin law; not compatible with `gr`'s isotropic single-scalar elastin formulation. No compatible mouse-CCA value found. |
+| elastin `G` | 1.40 | **Assumed, not fit — inherent to this whole model class, not a gap in our sourcing.** Elastin doesn't turn over in the adult, so no constrained-mixture paper (including the two above) can *fit* this from postnatal biaxial data; every paper in this literature assumes it a priori. The real four-fiber-family papers assume an anisotropic (circumferential/axial/radial) triad, not a single scalar compatible with `gr`'s isotropic elastin law — no paper gives a better mouse-CCA-specific scalar. |
 | elastin `c` (NeoHookean) | 8.126 kPa | Bersi et al. 2014, control fit |
 | elastin `k_d`, `gain` | 0, 0 | standard non-turnover assumption (elastin isn't renewed in the adult) |
 | collagen+SMC `phi0` | 0.7475 | Bellini et al. 2014 (0.279+0.458, renormalized) |
 | collagen+SMC `G` | 1.08 | Bellini et al. 2014, circumferential family (range 1.07–1.09, midpoint used) |
 | collagen+SMC `c1, c2` (Fung) | 4.782, 0.041 | Bersi et al. 2014, control fit |
-| collagen+SMC `k_d`, `gain` | 1/20 day, 1.0 | **`gr` generic default — flagged.** Neither paper reports a turnover rate or mechanosensitivity gain. Doesn't affect the result below: the equilibrated CMM's algebraic equilibrium equation doesn't use `k_d`/`gain` at all (they only matter for *transient* dynamics — homogenized/full CMM, a later step). |
+| collagen+SMC `k_d` | 1/70 day | Cyron, Aydin & Humphrey (2016), *Biomech Model Mechanobiol* 15:1389–1403 — the exact paper `homogenized_cmm.py` implements. Their own numerical example (an aortic aneurysm, not mouse-carotid-specific) uses time constant T=70 days. Adopted in place of an earlier unsourced "20-day small-vessel" guess, since it's the originating paper's own choice for this exact algorithm. Doesn't affect the result below — `k_d` never enters the equilibrated-CMM's algebraic equilibrium equation, only *transient* dynamics (homogenized/full CMM, a later step). |
+| collagen+SMC `gain` | 1.0 | **Not resolved to a specific cited number.** Cyron, Wilson & Humphrey (2014, the model's stability paper) report a normalized gain·time-constant product around 0.05–0.15 — if their definition matches `gr`'s `dM/dt = M*(gain*k_d)*dev` exactly (unconfirmed), that implies a gain roughly 10× smaller than `gr`'s default. We did not import that number without confirming the convention lines up — silently applying a mismatched definition risks a worse error than the placeholder it replaces. Flagged for whoever picks up the transient step next; has zero effect on the equilibrated-CMM result below. |
 
 **We use ONLY the control fit as the model's fixed material law — for all
 three vessels (CCA / RCCA-B / LCCA-B), never the post-band fit.** A
@@ -247,6 +248,9 @@ thickening and the diameter divergence.
 - Cyron CJ, Aydin RC, Humphrey JD. A homogenized constrained mixture (and
   mechanical analog) model for growth and remodeling of soft tissue. *Biomech
   Model Mechanobiol* 15:1389–1403, 2016.
+- Cyron CJ, Wilson JS, Humphrey JD. Mechanobiological stability: a new
+  paradigm to understand the enlargement of aneurysms? *J R Soc Interface*
+  11(100):20140680, 2014.
 - Latorre M, Humphrey JD. Mechanobiological stability of biological soft
   tissues. *J Mech Phys Solids* 125:298–325, 2019 (equilibrated CMM: 2018
   preprint/earlier formulation used by `Growth-Remodeling/src/gr/equilibrated_cmm.py`).

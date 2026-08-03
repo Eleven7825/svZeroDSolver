@@ -37,8 +37,8 @@ the wall growth \& remodeling Eberth measured.
 \small
 Heart $\to$ aortic valve $\to$ ascending aorta ($R_a,L_a,C_a$) $\to$
 \textbf{node A} $\to$ band $\Delta P_\text{band}(Q)$ $\to$ \textbf{node B} $\to$
-descending aorta ($R_o,L_o,C_b$); a carotid RCR bed ($R_p,C,R_d$) hangs off each
-node.
+descending aorta ($R_o,L_o,C_b$); each node feeds a carotid vessel
+($R_c,L_c,C_c$) into a terminal RCR bed ($R_p,C,R_d$).
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
 \begin{itemize}
@@ -89,16 +89,20 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 % descending aorta -> systemic
 \draw (B) to[R, l=$R_o$] (9,0)
           to[L, l=$L_o$] (11,0) coordinate(sys);
-% RCCA takeoff (node A) RCR
-\draw (A) to[R, l=$R_p^{R}$] (4,2) coordinate(ra);
-\draw (ra) to[R, l=$R_d^{R}$] (4,3.5) node[ground, rotate=180]{};
-\draw (ra) to[C, l=$C^{R}$, *-] (5.3,2) node[ground, rotate=-90]{};
-\node[align=center, font=\scriptsize] at (4.0,4.35) {RCCA-B\\(right head)};
-% LCCA takeoff (node B) RCR
-\draw (B) to[R, l=$R_p^{L}$] (7,2) coordinate(la);
-\draw (la) to[R, l=$R_d^{L}$] (7,3.5) node[ground, rotate=180]{};
-\draw (la) to[C, l=$C^{L}$, *-] (8.3,2) node[ground, rotate=-90]{};
-\node[align=center, font=\scriptsize] at (7.0,4.35) {LCCA-B\\(left head)};
+% RCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node A)
+\draw (A) to[R, l=$R_c^{R}$] (4,1.1) to[L, l=$L_c^{R}$] (4,2.2) coordinate(rc);
+\draw (rc) to[C, l_=$C_c^{R}$, *-] (5.4,2.2) node[ground, rotate=-90]{};
+\draw (rc) to[R, l=$R_p^{R}$] (4,3.4) coordinate(ra);
+\draw (ra) to[R, l=$R_d^{R}$] (4,4.6) node[ground, rotate=180]{};
+\draw (ra) to[C, l=$C^{R}$, *-] (5.7,3.4) node[ground, rotate=-90]{};
+\node[align=center, font=\scriptsize] at (4.0,5.4) {RCCA-B\\(right head)};
+% LCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node B)
+\draw (B) to[R, l=$R_c^{L}$] (7,1.1) to[L, l=$L_c^{L}$] (7,2.2) coordinate(lc);
+\draw (lc) to[C, l_=$C_c^{L}$, *-] (8.4,2.2) node[ground, rotate=-90]{};
+\draw (lc) to[R, l=$R_p^{L}$] (7,3.4) coordinate(la);
+\draw (la) to[R, l=$R_d^{L}$] (7,4.6) node[ground, rotate=180]{};
+\draw (la) to[C, l=$C^{L}$, *-] (8.7,3.4) node[ground, rotate=-90]{};
+\node[align=center, font=\scriptsize] at (7.0,5.4) {LCCA-B\\(left head)};
 % systemic terminal Windkessel
 \draw (sys) to[R, l=$R_p^{S}$] (11,-1) coordinate(sa);
 \draw (sa) -- ++(-0.55,0) to[C, l_=$C^{S}$, *-] ++(0,-1) node[ground]{};
@@ -118,16 +122,19 @@ $R_a,L_a,C_a$ & \texttt{ascending\_aorta} \\
 $\Delta P_\text{band}(Q)$ & \texttt{aortic\_band} \\
 $R_o,L_o,C_b$ & \texttt{descending\_aorta} \\
 node A / B & \texttt{node\_A} / \texttt{node\_B} \\
+$R_c^{R},L_c^{R},C_c^{R}$ & \texttt{rcca\_b} \\
 $R_p^{R},C^{R},R_d^{R}$ & \texttt{RCR\_RIGHT} \\
+$R_c^{L},L_c^{L},C_c^{L}$ & \texttt{lcca\_b} \\
 $R_p^{L},C^{L},R_d^{L}$ & \texttt{RCR\_LEFT} \\
 $R_p^{S},C^{S},R_d^{S}$ & \texttt{RCR\_SYS} \\
 \bottomrule
 \end{tabular}
 \\[0.6em]
 \raggedright\tiny Not drawn (negligible): \texttt{aortic\_root} ($R,L$ before the
-valve) and the carotid conduits \texttt{rcca\_b}/\texttt{lcca\_b} ($R,L,C$ between
-node A/B and \texttt{RCR\_RIGHT}/\texttt{RCR\_LEFT}) --- their own wall
-compliance is tiny next to the bed/aortic $C$.
+valve). Note: $C_c^{R,L}$ (the carotid's own wall compliance, $\sim$1e-6
+ml/mmHg) is $\sim$30--40$\times$ smaller than the bed $C^{R,L}$ it feeds into ---
+it barely affects PI, which is why wall remodeling alone doesn't move it (see
+next slide).
 \end{column}
 \end{columns}
 \vspace{0.3em}

@@ -38,13 +38,21 @@ carotids — the key qualitative test.
 ### Circuit (electric analogy: pressure ↔ voltage, flow ↔ current)
 
 ```
-                              RCCA-B (right head)      LCCA-B (left head)
-                                    │ RCR                    │ RCR
-   Qin(t)   aortic     Ra La Ca     │                        │      Ro Lo
+                          Rc Lc Cc  RCCA-B      Rc Lc Cc  LCCA-B
+                          ┌──────┐  RCR         ┌──────┐  RCR
+                          │rcca_b│   │          │lcca_b│   │
+                          └──────┘   │          └──────┘   │
+                                │    │                │    │
+   Qin(t)   aortic     Ra La Ca│    │                │    │      Ro Lo
    ┌───┐    valve   ┌────────────┐  A   ΔP_band(Q)   ┌────┐  B  ┌──────────────┐   systemic
    │ ⊕ │──▷|──────▶ │ asc. aorta │──┴──▷/\/\/──────▶ │band│──┴─▶│ desc. aorta  │──▶ RCR load
    └───┘            └────────────┘        BAND       └────┘     └──────────────┘
 ```
+
+Each carotid takeoff feeds its *own* vessel (`rcca_b`/`lcca_b`, with its own
+wall `R,L,C` derived from the Table-1 geometry) before reaching the RCR bed.
+The vessel's own `Cc` is ~30–40× smaller than the bed's `C` and is the part
+most simplified sketches drop — see §3.4/§8 for both.
 
 - **Node A** is upstream of the band → stays pulsatile.
 - **Node B** is downstream of the resistive–inertial band → damped.
@@ -128,13 +136,15 @@ Consistent **mmHg / ml / s**:
 |----|------|-------:|-------------:|----:|----:|---------------:|-------|--------|
 | 0 | `aortic_root` | 2.0 | 0.5 | — | 0.005 | — | `INFLOW` | (→ valve) |
 | 1 | `ascending_aorta` | 5.0 | 1.0 | 5.0e-4 | 0.02 | — | (valve →) | node A |
-| 2 | `rcca_b` | 5.0 | 1.0 | — | — | — | node A | `RCR_RIGHT` |
+| 2 | `rcca_b` | 5.0 | 1.0 | 5.0e-6 | 0.01 | — | node A | `RCR_RIGHT` |
 | 3 | `aortic_band` | 1.0 | 1.0 | — | 0.03 | **80.0** | node A | node B |
-| 4 | `lcca_b` | 5.0 | 1.0 | — | — | — | node B | `RCR_LEFT` |
+| 4 | `lcca_b` | 5.0 | 1.0 | 5.0e-6 | 0.01 | — | node B | `RCR_LEFT` |
 | 5 | `descending_aorta` | 8.0 | 1.0 | 5.0e-4 | 0.02 | — | node B | `RCR_SYS` |
 
-`C` gives node compliance (Ca on ascending aorta, Cb on descending aorta / node
-B). The band (id 3) is the only nonlinear element — its `stenosis_coefficient`
+`C` gives each vessel's own wall compliance (Ca on ascending aorta, Cb on
+descending aorta; a much smaller `Cc` on `rcca_b`/`lcca_b` — their own carotid
+wall compliance, distinct from and ~100× smaller than the downstream RCR bed's
+`C`). The band (id 3) is the only nonlinear element — its `stenosis_coefficient`
 and `L` set the pulse damping.
 
 ### 3.5 Junctions (`NORMAL_JUNCTION`)

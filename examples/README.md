@@ -43,11 +43,15 @@ pulsatility asymmetry is the model's key qualitative test.
 
 ```
 heart Qin(t) → aortic valve → ascending aorta (Ra,La,Ca) → node A
-   node A ├─→ RCCA-B  → RCR (right head)
+   node A ├─→ RCCA-B vessel (Rc,Lc,Cc) → RCR (right head)
           └─→ BAND ΔP_band(Q) → node B
-   node B ├─→ LCCA-B  → RCR (left head)
+   node B ├─→ LCCA-B vessel (Rc,Lc,Cc) → RCR (left head)
           └─→ descending aorta (Ro,Lo) → RCR (systemic load)
 ```
+
+`Cc` is the carotid's *own* wall compliance (from Table-1 geometry), distinct
+from the RCR bed's `C` (the downstream cerebral-bed compliance) — `Cc` is
+~30–40× smaller and is the one usually omitted from simplified sketches.
 
 ## Block mapping (PDF → svZeroDSolver)
 
@@ -58,6 +62,7 @@ heart Qin(t) → aortic valve → ascending aorta (Ra,La,Ca) → node A
 | Ascending / descending aorta    | `BloodVessel` (`R_poiseuille`, `C`, `L`)                  |
 | Band `ΔP_band(Q)` (Young–Tsai)  | `BloodVessel` with `stenosis_coefficient` (+`L`)          |
 | Node A / node B                 | `NORMAL_JUNCTION`                                          |
+| RCCA-B / LCCA-B carotid vessel  | `BloodVessel` (`R_poiseuille`, `C`, `L`) — `rcca_b`/`lcca_b` |
 | Terminal beds (Rp–C–Rd)         | `RCR` boundary conditions                                 |
 
 The band uses svZeroD's `BloodVessel` stenosis term, whose governing law

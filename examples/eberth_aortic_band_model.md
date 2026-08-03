@@ -49,10 +49,12 @@ carotids — the key qualitative test.
    └───┘            └────────────┘        BAND       └────┘     └──────────────┘
 ```
 
-Each carotid takeoff feeds its *own* vessel (`rcca_b`/`lcca_b`, with its own
-wall `R,L,C` derived from the Table-1 geometry) before reaching the RCR bed.
-The vessel's own `Cc` is ~30–40× smaller than the bed's `C` and is the part
-most simplified sketches drop — see §3.4/§8 for both.
+Each carotid takeoff feeds its *own* vessel (`rcca_b`/`lcca_b`) before reaching
+the RCR bed. That vessel's `R,L,C` are computed from the Table-1 geometry
+(radius, length, wall thickness) and the carotid wall modulus `E` via
+Eq. (1)–(3) — the same formula used for every other vessel in this model, not
+a separately-assumed value. The vessel's own `Cc` is ~30–40× smaller than the
+bed's `C` and is the part most simplified sketches drop — see §3.4/§8 for both.
 
 - **Node A** is upstream of the band → stays pulsatile.
 - **Node B** is downstream of the resistive–inertial band → damped.

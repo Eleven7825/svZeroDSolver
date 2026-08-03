@@ -49,7 +49,10 @@ heart Qin(t) → aortic valve → ascending aorta (Ra,La,Ca) → node A
           └─→ descending aorta (Ro,Lo) → RCR (systemic load)
 ```
 
-`Cc` is the carotid's *own* wall compliance (from Table-1 geometry), distinct
+`Rc`, `Lc`, `Cc` are computed from each carotid's own Table-1 geometry
+(radius, length, wall thickness) and its wall modulus `E` via Eq. (1)–(3) —
+the same formula used for every other vessel `R,L,C` in this model (see
+`make_configs.py`). `Cc` is the carotid's *own* wall compliance, distinct
 from the RCR bed's `C` (the downstream cerebral-bed compliance) — `Cc` is
 ~30–40× smaller and is the one usually omitted from simplified sketches.
 

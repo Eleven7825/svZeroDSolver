@@ -78,14 +78,14 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
       to[R, l=$R_a$] (2.4,0)
       to[L, l=$L_a$] (4,0) node[circle, fill, inner sep=1.2pt] (A) {};
 \node[below] at (0.8,-0.4) {valve};
-\node[above left] at (A) {\textbf{A}};
+\node[below left] at (A) {\textbf{A}};
 \draw (A) to[C, l_=$C_a$] (4,-2) node[ground]{};
 % BAND: nonlinear stenosis A -> B
 \draw (A) to[vR, n=band] (8,0) node[circle, fill, inner sep=1.2pt] (B) {};
 \draw[dashed] (4.6,-0.8) rectangle (7.4,0.8);
 \node[above] at (6,0.8) {$\Delta P_\text{band}(Q)$};
 \node[below] at (6,-0.8) {BAND (stenosis)};
-\node[above right] at (B) {\textbf{B}};
+\node[below right] at (B) {\textbf{B}};
 \draw (B) to[C, l=$C_b$] (8,-2) node[ground]{};
 % RCCA carotid vessel (own Rc,Lc,Cc) then RCR bed (node A)
 \draw (A)

@@ -116,20 +116,20 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 \end{circuitikz}}
 \end{column}
 \begin{column}{0.32\textwidth}
-\scriptsize
-\begin{tabular}{@{}ll@{}}
+\tiny
+\begin{tabular}{@{}c@{\hspace{4pt}}l@{\hspace{4pt}}l@{}}
 \toprule
-symbol & component (this repo) \\
+id & symbol & component \\
 \midrule
-valve & \texttt{aortic\_valve} \\
-$R_a,L_a,C_a$ & \texttt{ascending\_aorta} \\
-$\Delta P_\text{band}(Q)$ & \texttt{aortic\_band} \\
-$R_o,L_o,C_b$ & \texttt{descending\_aorta} \\
-$R_c^{R},L_c^{R},C_c^{R}$ & \texttt{rcca\_b} \\
-$R_p^{R},C^{R},R_d^{R}$ & \texttt{RCR\_RIGHT} \\
-$R_c^{L},L_c^{L},C_c^{L}$ & \texttt{lcca\_b} \\
-$R_p^{L},C^{L},R_d^{L}$ & \texttt{RCR\_LEFT} \\
-$R_p^{S},C^{S},R_d^{S}$ & \texttt{RCR\_SYS} \\
+%--- & valve & \texttt{aortic\_valve} \\
+1 & $R_a,L_a,C_a$ & \texttt{ascending\_aorta} \\
+%3 & $\Delta P_\text{band}(Q)$ & \texttt{aortic\_band} \\
+5 & $R_o,L_o,C_b$ & \texttt{descending\_aorta} \\
+2 & $R_c^{R},L_c^{R},C_c^{R}$ & \texttt{rcca\_b} \\
+--- & $R_p^{R},C^{R},R_d^{R}$ & \texttt{RCR\_RIGHT} \\
+4 & $R_c^{L},L_c^{L},C_c^{L}$ & \texttt{lcca\_b} \\
+--- & $R_p^{L},C^{L},R_d^{L}$ & \texttt{RCR\_LEFT} \\
+--- & $R_p^{S},C^{S},R_d^{S}$ & \texttt{RCR\_SYS} \\
 \bottomrule
 \end{tabular}
 \\[0.6em]

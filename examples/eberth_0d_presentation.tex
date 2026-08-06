@@ -78,35 +78,48 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 % ascending aorta R_a - L_a -> node A
 \draw (hin) to[R, l=$R_a$] (2,0)
             to[L, l=$L_a$] (4,0) node[circ]{} coordinate(A);
-\node[above=1pt] at (A) {\textbf{A}};
+\node[font=\scriptsize] at ($(A)+(-0.3,-0.35)$) {\textbf{A}};
 \draw (A) to[C, l_=$C_a$, *-] (4,-2) node[ground]{};
 % BAND: nonlinear stenosis A -> B
 \draw (A) to[vR, l=$\Delta P_\text{band}(Q)$, n=band] (7,0) node[circ]{} coordinate(B);
-\node[above=1pt] at (B) {\textbf{B}};
+\node[font=\scriptsize] at ($(B)+(0.3,-0.35)$) {\textbf{B}};
 \draw[densely dashed] ($(band.north)+(-0.95,0.5)$) rectangle ($(band.south)+(0.95,-0.35)$);
 \node[font=\scriptsize] at ($(band.south)+(0,-0.55)$) {BAND (stenosis)};
 \draw (B) to[C, l=$C_b$, *-] (7,-2) node[ground]{};
 % descending aorta -> systemic
 \draw (B) to[R, l=$R_o$] (9,0)
           to[L, l=$L_o$] (11,0) coordinate(sys);
-% RCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node A)
-\draw (A) to[R, l=$R_c^{R}$] (4,1.1) to[L, l=$L_c^{R}$] (4,2.2) coordinate(rc);
-\draw (rc) to[C, l_=$C_c^{R}$, *-] (5.4,2.2) node[ground, rotate=-90]{};
-\draw (rc) to[R, l=$R_p^{R}$] (4,3.4) coordinate(ra);
-\draw (ra) to[R, l=$R_d^{R}$] (4,4.6) node[ground, rotate=180]{};
-\draw (ra) to[C, l=$C^{R}$, *-] (5.7,3.4) node[ground, rotate=-90]{};
-\node[align=center, font=\scriptsize] at (4.0,5.4) {RCCA-B\\(right head)};
-% LCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node B)
-\draw (B) to[R, l=$R_c^{L}$] (7,1.1) to[L, l=$L_c^{L}$] (7,2.2) coordinate(lc);
-\draw (lc) to[C, l_=$C_c^{L}$, *-] (8.4,2.2) node[ground, rotate=-90]{};
-\draw (lc) to[R, l=$R_p^{L}$] (7,3.4) coordinate(la);
-\draw (la) to[R, l=$R_d^{L}$] (7,4.6) node[ground, rotate=180]{};
-\draw (la) to[C, l=$C^{L}$, *-] (8.7,3.4) node[ground, rotate=-90]{};
-\node[align=center, font=\scriptsize] at (7.0,5.4) {LCCA-B\\(left head)};
-% systemic terminal Windkessel
+% RCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node A); shunts fan LEFT (away from band)
+\draw (A) to[R, l=$R_c^{R}$] (4,0.85) to[L, l=$L_c^{R}$] (4,1.7) coordinate(rc);
+\draw (rc) -- (2.6,1.7);
+\draw (2.6,1.7) to[C, l=$C_c^{R}$] (2.6,2.25) node[ground, rotate=180]{};
+\draw (rc) to[R, l=$R_p^{R}$] (4,2.65) coordinate(ra);
+\draw (ra) -- (2.3,2.65);
+\draw (ra) to[R, l=$R_d^{R}$] (4,3.65);
+\draw (2.3,2.65) to[C, l=$C^{R}$] (2.3,3.65);
+\draw (2.3,3.65) -- (4,3.65) -- (4,3.9) node[ground]{};
+\fill (rc) circle (1.2pt);
+\fill (ra) circle (1.2pt);
+\node[align=center, font=\scriptsize] at (3.15,4.4) {RCCA-B\\(right head)};
+% LCCA-B carotid vessel (own Rc,Lc,Cc) then RCR bed (node B); shunts fan RIGHT (away from band)
+\draw (B) to[R, l=$R_c^{L}$] (7,0.85) to[L, l=$L_c^{L}$] (7,1.7) coordinate(lc);
+\draw (lc) -- (8.4,1.7);
+\draw (8.4,1.7) to[C, l=$C_c^{L}$] (8.4,2.25) node[ground, rotate=180]{};
+\draw (lc) to[R, l=$R_p^{L}$] (7,2.65) coordinate(la);
+\draw (la) -- (8.7,2.65);
+\draw (la) to[R, l=$R_d^{L}$] (7,3.65);
+\draw (8.7,2.65) to[C, l=$C^{L}$] (8.7,3.65);
+\draw (8.7,3.65) -- (7,3.65) -- (7,3.9) node[ground]{};
+\fill (lc) circle (1.2pt);
+\fill (la) circle (1.2pt);
+\node[align=center, font=\scriptsize] at (7.85,4.4) {LCCA-B\\(left head)};
+% systemic terminal Windkessel (Rd, C share a rail + single ground, hanging below)
 \draw (sys) to[R, l=$R_p^{S}$] (11,-1) coordinate(sa);
-\draw (sa) -- ++(-0.55,0) to[C, l_=$C^{S}$, *-] ++(0,-1) node[ground]{};
-\draw (sa) -- ++(0.55,0) to[R, l=$R_d^{S}$] ++(0,-1) node[ground]{};
+\draw (sa) -- (9.7,-1);
+\draw (sa) to[R, l=$R_d^{S}$] (11,-2.3);
+\draw (9.7,-1) to[C, l_=$C^{S}$] (9.7,-2.3);
+\draw (9.7,-2.3) -- (11,-2.3) -- (11,-2.65) node[ground]{};
+\fill (sa) circle (1.2pt);
 \node[align=center, font=\scriptsize] at (11.0,0.95) {systemic load};
 \end{circuitikz}}
 \end{column}
@@ -137,7 +150,7 @@ $\sim$30--40$\times$ smaller than the bed $C$ it feeds --- barely affects PI,
 so wall remodeling alone doesn't move it (next slide).
 \end{column}
 \end{columns}
-\vspace{0.1em}
+\vspace{0em}
 
 \footnotesize Pressure $\leftrightarrow$ voltage, flow $\leftrightarrow$ current.
 Node A (RCCA-B) is upstream of the band and stays pulsatile; node B (LCCA-B) is

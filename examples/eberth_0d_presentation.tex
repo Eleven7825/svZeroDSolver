@@ -74,8 +74,10 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 % main aortic line: heart flow source -> node A
 \draw (0,-2.5) node[ground]{}
       to[isource, l=$Q_\text{in}(t)$] (0,0)
-      to[R, l=$R_a$] (2,0)
+      to[D] (0.8,0)
+      to[R, l=$R_a$] (2.4,0)
       to[L, l=$L_a$] (4,0) node[circle, fill, inner sep=1.2pt] (A) {};
+\node[below] at (0.8,-0.4) {valve};
 \node[above left] at (A) {\textbf{A}};
 \draw (A) to[C, l_=$C_a$] (4,-2) node[ground]{};
 % BAND: nonlinear stenosis A -> B
@@ -119,11 +121,10 @@ pre-banding (baseline), acute (baseline walls), chronic (Table-1 remodeled walls
 \toprule
 symbol & component (this repo) \\
 \midrule
-$Q_\text{in}(t)$ & \texttt{INFLOW} \\
+valve & \texttt{aortic\_valve} \\
 $R_a,L_a,C_a$ & \texttt{ascending\_aorta} \\
 $\Delta P_\text{band}(Q)$ & \texttt{aortic\_band} \\
 $R_o,L_o,C_b$ & \texttt{descending\_aorta} \\
-node A / B & \texttt{node\_A} / \texttt{node\_B} \\
 $R_c^{R},L_c^{R},C_c^{R}$ & \texttt{rcca\_b} \\
 $R_p^{R},C^{R},R_d^{R}$ & \texttt{RCR\_RIGHT} \\
 $R_c^{L},L_c^{L},C_c^{L}$ & \texttt{lcca\_b} \\
@@ -132,19 +133,19 @@ $R_p^{S},C^{S},R_d^{S}$ & \texttt{RCR\_SYS} \\
 \bottomrule
 \end{tabular}
 \\[0.6em]
-\raggedright\tiny Not drawn (negligible): \texttt{aortic\_root} ($R,L$ before the
-valve) and \texttt{aortic\_valve} (a diode gating reverse flow).
-$R_c,L_c,C_c$ come from each carotid's own Table-1 geometry \& $E_\text{carotid}$
-via Eq.\,(1)--(3), same as every other vessel. $C_c$ ($\sim$1e-6 ml/mmHg) is
-$\sim$30--40$\times$ smaller than the bed $C$ it feeds --- barely affects PI,
-so wall remodeling alone doesn't move it (next slide).
+%\raggedright\tiny Not drawn (negligible): \texttt{aortic\_root} ($R,L$ before the
+%valve) and \texttt{aortic\_valve} (a diode gating reverse flow).
+%$R_c,L_c,C_c$ come from each carotid's own Table-1 geometry \& $E_\text{carotid}$
+%via Eq.\,(1)--(3), same as every other vessel. $C_c$ ($\sim$1e-6 ml/mmHg) is
+%$\sim$30--40$\times$ smaller than the bed $C$ it feeds --- barely affects PI,
+%so wall remodeling alone doesn't move it (next slide).
 \end{column}
 \end{columns}
 \vspace{0em}
 
-\footnotesize Pressure $\leftrightarrow$ voltage, flow $\leftrightarrow$ current.
-Node A (RCCA-B) is upstream of the band and stays pulsatile; node B (LCCA-B) is
-downstream and damped. Each terminal bed is an $R_p$--$C$--$R_d$ Windkessel.
+%\footnotesize Pressure $\leftrightarrow$ voltage, flow $\leftrightarrow$ current.
+%Node A (RCCA-B) is upstream of the band and stays pulsatile; node B (LCCA-B) is
+%downstream and damped. Each terminal bed is an $R_p$--$C$--$R_d$ Windkessel.
 \end{frame}
 
 % ---------------------------------------------------------------
